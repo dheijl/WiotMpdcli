@@ -4,7 +4,7 @@
 
 const unsigned int BATTERY_CAPACITY = 650;  // Set Wio Terminal Battery's Capacity
 
-static bool have_battery = false;
+static bool _have_battery = false;
 
 bool init_battery(void) {
   // Use lipo.begin() to initialize the BQ27441-G1A and confirm that it's connected and communicating.
@@ -21,13 +21,13 @@ bool init_battery(void) {
   // Uset lipo.setCapacity(BATTERY_CAPACITY) to set the design capacity
   // of your battery.
   lipo.setCapacity(BATTERY_CAPACITY);
-  have_battery = true;
+  _have_battery = true;
   return true;
 }
 
 
 void printBatteryStats() {
-  if (!have_battery) {
+  if (!_have_battery) {
     return;
   }
   // Read battery stats from the BQ27441-G1A

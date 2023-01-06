@@ -1,3 +1,4 @@
+#include "variant.h"
 #include <Arduino.h>
 
 //#include "variant.h"
@@ -24,18 +25,21 @@ void setup() {
 
 void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
-    do {
-      yield();
-    } while (digitalRead(WIO_KEY_A) == LOW);
+    digitalWrite(LCD_BACKLIGHT, HIGH);
     tft_println("KEY_A");
+    while (digitalRead(WIO_KEY_A) == LOW) {}
+    tft_clear();
+  } else {
+    digitalWrite(LCD_BACKLIGHT, LOW);
   }
 
   if (digitalRead(WIO_KEY_B) == LOW) {
-    do {
-      yield();
-    } while (digitalRead(WIO_KEY_A) == LOW);
+    digitalWrite(LCD_BACKLIGHT, HIGH);
     printBatteryStats();
+    while (digitalRead(WIO_KEY_B) == LOW) {}
+    tft_clear();
+  } else {
+    digitalWrite(LCD_BACKLIGHT, LOW);
   }
-
   // put your main code here, to run repeatedly:
 }
