@@ -7,3 +7,5 @@
 void init_tft();
 void tft_write(int x, int y, String s);
 void tft_println(String s);
+
+void tft_clear();

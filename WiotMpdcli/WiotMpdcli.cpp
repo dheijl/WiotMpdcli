@@ -6,6 +6,7 @@
 #include "mpdcli.h"
 #include "buttons.h"
 #include "tftfunctions.h"
+#include "battery.h"
 #include "debug.h"
 
 extern void test_mpdcli();
@@ -17,6 +18,8 @@ void setup() {
   init_buttons();
   // Initialize TFT
   init_tft();
+  // initialize battery
+  init_battery();
 }
 
 void loop() {
@@ -25,6 +28,13 @@ void loop() {
     do {
       yield();
     } while (digitalRead(WIO_KEY_A) == LOW);
+  }
+
+  if (digitalRead(WIO_KEY_B) == LOW) {
+    do {
+      yield();
+    } while (digitalRead(WIO_KEY_A) == LOW);
+    printBatteryStats();
   }
 
   // put your main code here, to run repeatedly:

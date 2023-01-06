@@ -20,3 +20,7 @@ void tft_write(int x, int y, String s) {
 void tft_println(String s) {
   tft.println(s);
 }
+
+void tft_clear() {
+  tft.fillScreen(TFT_BLACK);
+}
