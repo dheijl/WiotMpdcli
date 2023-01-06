@@ -26,6 +26,9 @@
 *.a
 *.lib
 
+# Arduino/Clang logs
+*.log
+
 # Executables
 *.exe
 *.out
