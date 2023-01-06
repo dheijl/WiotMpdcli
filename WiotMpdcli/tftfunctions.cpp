@@ -23,4 +23,6 @@ void tft_println(String s) {
 
 void tft_clear() {
   tft.fillScreen(TFT_BLACK);
+  tft.setCursor(0, 0);
+  tft.println();
 }

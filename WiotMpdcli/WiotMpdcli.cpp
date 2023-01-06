@@ -24,10 +24,10 @@ void setup() {
 
 void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
-    tft_println("KEY_A");
     do {
       yield();
     } while (digitalRead(WIO_KEY_A) == LOW);
+    tft_println("KEY_A");
   }
 
   if (digitalRead(WIO_KEY_B) == LOW) {

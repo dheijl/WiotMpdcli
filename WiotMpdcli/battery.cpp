@@ -54,11 +54,11 @@ void printBatteryStats() {
 
   // LCD Graphics
   tft_clear();
-  tft_println("Charge:" + String(soc) + " %");
-  tft_println("Voltage:" + String(volts) + " mV");
-  tft_println("Avg Current:" + String(current) + " mA");
-  tft_println("Rem Capacity:" + String(capacity) + " mAH");
-  tft_println("Full Capacity:" + String(fullCapacity) + " mAH");
-  tft_println("Avg Power:" + String(power) + " mW");
-  tft_println("Health:" + String(health) + " %");
+  tft_println("Charge: " + String(soc) + " %");
+  tft_println("Voltage: " + String(volts) + " mV");
+  tft_println("Avg Current :" + String(current) + " mA");
+  tft_println("Rem Cap :" + String(capacity) + " mAH");
+  tft_println("Full Cap :" + String(fullCapacity) + " mAH");
+  tft_println("Avg Power: " + String(power) + " mW");
+  tft_println("Health: " + String(health) + " %");
 }
