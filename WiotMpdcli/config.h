@@ -1,6 +1,6 @@
 #pragma once
 
-#undef DEBUG 
+#define DEBUG 
 #undef DEBUGMPDMESSAGES 
 
 #ifdef DEBUG
@@ -8,3 +8,4 @@
 #else
 #define DPRINT(x)
 #endif
+

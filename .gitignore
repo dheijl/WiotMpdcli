@@ -29,6 +29,9 @@
 # Arduino/Clang logs
 *.log
 
+# Secrets
+secret.h
+
 # Executables
 *.exe
 *.out

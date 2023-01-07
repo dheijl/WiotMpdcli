@@ -1,3 +1,5 @@
+#include "wiring_digital.h"
+#include "wifi.h"
 #include "variant.h"
 #include <Arduino.h>
 
@@ -25,12 +27,18 @@ void setup() {
 
 void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
-    digitalWrite(LCD_BACKLIGHT, HIGH);
-    tft_println("KEY_A");
-    while (digitalRead(WIO_KEY_A) == LOW) {}
     tft_clear();
-  } else {
+    digitalWrite(LCD_BACKLIGHT, HIGH);
+    tft_println("Connecting...");
+    if (start_wifi()) {
+      tft_println("connected");
+    } else {
+      tft_println("can't connect");
+    }
+    delay(1500);
     digitalWrite(LCD_BACKLIGHT, LOW);
+    stop_wifi();
+    digitalWrite(LED_BUILTIN, LOW);
   }
 
   if (digitalRead(WIO_KEY_B) == LOW) {
