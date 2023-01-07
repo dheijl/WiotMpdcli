@@ -1,3 +1,5 @@
+#pragma once
+
 #include <BQ27441_Definitions.h>
 #include <SparkFunBQ27441.h>
 
