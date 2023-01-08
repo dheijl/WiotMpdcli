@@ -37,6 +37,8 @@ void loop() {
     }
     MpdConnection con;
     if (con.Connect(MPD_HOST, MPD_PORT)) {
+      con.GetStatus();
+      con.GetCurrentSong();
       con.Disconnect();
     }
     delay(5000);

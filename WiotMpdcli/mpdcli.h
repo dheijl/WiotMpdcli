@@ -15,8 +15,8 @@ using namespace std;
 static const char* MPD_HOST = "192.168.0.129";
 static const int MPD_PORT = 6600;
 
-static const string MPD_CURRENTSONG = "currentsong";
-static const string MPD_STATUS = "status";
+static const string MPD_CURRENTSONG = "currentsong\n";
+static const string MPD_STATUS = "status\n";
 
 enum MpdResponseType {
   MpdOKType,
@@ -163,19 +163,37 @@ public:
 class MpdConnection {
 private:
   WiFiClient Client;
+  string read_data() {
+    int n = 5000;
+    while (n-- > 0) {
+      delay(1);
+      if (Client.available()) {
+        break;
+      }
+    }
+    if (n <= 0) {
+      tft_println("no response");
+      return string();
+    }
+    uint8_t buf[4096];
+    int bufsize = sizeof(buf) / sizeof(uint8_t);
+    n = Client.read(buf, sizeof(buf));
+    string data((char*)&buf[0], n);
+    return data;
+  }
 protected:
 public:
   bool Connect(const char* host, int port) {
+    DPRINT("Connect MPD");
     if (Client.connect(host, port)) {
-      tft_println("MPD " + String(host) + ":" + String(port));
-      for (int n = 0; n < 5000; n++) {
-        if (Client.available()) {
-          break;
-        }
-        delay(1);
+      tft_println("CON MPD " + String(host) + ":" + String(port));
+      string data = read_data();
+      if (data.length() == 0) {
+        return false;
       }
-      String s = Client.readString();
-      MpdConnect con(s.c_str());
+      DPRINT(data.c_str());
+      MpdConnect con(data);
+      tft_println(String(data.c_str()));
       String v = String(con.getVersion().c_str());
       tft_println(v);
       return true;
@@ -186,6 +204,31 @@ public:
     }
   }
   void Disconnect() {
+    DPRINT("Disconnect MPD");
     Client.stop();
+  }
+  bool GetStatus() {
+    DPRINT("Get Status");
+    Client.write(MPD_STATUS.c_str(), MPD_STATUS.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    DPRINT(data.c_str());
+    MpdStatus mpd_status(data);
+    tft_println(mpd_status.getState().c_str());
+    return true;
+  }
+  bool GetCurrentSong() {
+    DPRINT("GetCurrentSong");
+    Client.write(MPD_CURRENTSONG.c_str(), MPD_CURRENTSONG.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    DPRINT(data.c_str());
+    MpdCurrentSong mpd_cs(data);
+    tft_println(mpd_cs.getTitle().c_str());
+    return true;
   }
 };
