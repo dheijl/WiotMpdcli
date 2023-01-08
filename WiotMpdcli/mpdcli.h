@@ -195,6 +195,7 @@ public:
       MpdConnect con(data);
       tft_println(String(data.c_str()));
       String v = String(con.getVersion().c_str());
+      v.trim();
       tft_println(v);
       return true;
     } else {
@@ -228,7 +229,12 @@ public:
     }
     DPRINT(data.c_str());
     MpdCurrentSong mpd_cs(data);
+    tft_println(mpd_cs.getName().c_str());
     tft_println(mpd_cs.getTitle().c_str());
+    String file = String(mpd_cs.getFile().c_str());
+    int p = file.lastIndexOf('/');
+    file = file.substring(p + 1);
+    tft_println(file);
     return true;
   }
 };
