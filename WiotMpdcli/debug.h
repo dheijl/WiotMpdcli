@@ -1,6 +1,7 @@
 #pragma once
 
 #include "config.h"
+#include "testmpdcli.h"
 
 void init_debug() {
 #ifdef DEBUG

@@ -35,7 +35,11 @@ void loop() {
     } else {
       tft_println("can't connect");
     }
-    delay(1500);
+    MpdConnection con;
+    if (con.Connect(MPD_HOST, MPD_PORT)) {
+      con.Disconnect();
+    }
+    delay(5000);
     digitalWrite(LCD_BACKLIGHT, LOW);
     stop_wifi();
     digitalWrite(LED_BUILTIN, LOW);

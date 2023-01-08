@@ -1,3 +1,5 @@
+#include<string>
+
 #include "tftfunctions.h"
 
 TFT_eSPI tft = TFT_eSPI();
@@ -13,10 +15,10 @@ void init_tft() {
   tft.println("TFT initialized!");
 }
 
-void tft_write(int x, int y, String s) {
+void tft_write(int x, int y, string s) {
 }
 
-void tft_println(String s) {
+void tft_println(const String s) {
   tft.println(s);
 }
 

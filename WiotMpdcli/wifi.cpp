@@ -7,7 +7,11 @@
 
 bool start_wifi() {
 
-  WiFi.mode(WIFI_STA);
+  //Turn on WiFi
+  //pinMode(RTL8720D_CHIP_PU, OUTPUT);
+  //digitalWrite(RTL8720D_CHIP_PU, HIGH);
+  delay(100);
+    WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
 
@@ -24,4 +28,7 @@ void stop_wifi() {
   DPRINT("Disconnect wifi");
   WiFi.disconnect();
   delay(100);
+  //Turn off WiFi
+  //pinMode(RTL8720D_CHIP_PU, OUTPUT);
+  //digitalWrite(RTL8720D_CHIP_PU, LOW);
 }
