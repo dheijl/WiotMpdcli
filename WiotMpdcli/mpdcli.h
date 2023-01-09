@@ -114,6 +114,11 @@ public:
   MpdConnect(const string response)
     : MpdResponse(response) {
     this->ResponseKind = MpdConnectKind;
+    this->Version = this->getResponseString();
+    int p = this->Version.find('\n');
+    if (p > 0) {
+      this->Version.erase(p, 1);
+    }
   }
   string getVersion() {
     return this->Version;
@@ -186,16 +191,14 @@ public:
   bool Connect(const char* host, int port) {
     DPRINT("Connect MPD");
     if (Client.connect(host, port)) {
-      tft_println("CON MPD " + String(host) + ":" + String(port));
+      tft_println("CON MPD @" + String(host) + ":" + String(port));
       string data = read_data();
       if (data.length() == 0) {
         return false;
       }
       DPRINT(data.c_str());
       MpdConnect con(data);
-      tft_println(String(data.c_str()));
       String v = String(con.getVersion().c_str());
-      v.trim();
       tft_println(v);
       return true;
     } else {
