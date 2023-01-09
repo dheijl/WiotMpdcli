@@ -29,11 +29,11 @@ void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
     tft_clear();
     digitalWrite(LCD_BACKLIGHT, HIGH);
-    tft_println("Connecting...");
+    tft_println("Connecting WiFi...");
     if (start_wifi()) {
-      tft_println("connected");
+      tft_println("Connected.");
     } else {
-      tft_println("can't connect");
+      tft_println("Can't connect.");
     }
     MpdConnection con;
     if (con.Connect(MPD_HOST, MPD_PORT)) {
@@ -42,6 +42,9 @@ void loop() {
       con.Disconnect();
     }
     delay(5000);
+    while (digitalRead(WIO_KEY_A) == LOW) {
+      delay(100);
+    }
     digitalWrite(LCD_BACKLIGHT, LOW);
     stop_wifi();
     digitalWrite(LED_BUILTIN, LOW);

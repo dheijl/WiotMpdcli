@@ -189,7 +189,7 @@ private:
 protected:
 public:
   bool Connect(const char* host, int port) {
-    DPRINT("Connect MPD");
+    DPRINT("Connect to MPD");
     if (Client.connect(host, port)) {
       tft_println("CON MPD @" + String(host) + ":" + String(port));
       string data = read_data();
