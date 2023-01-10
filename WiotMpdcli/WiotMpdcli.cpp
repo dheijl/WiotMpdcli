@@ -3,14 +3,13 @@
 #include "variant.h"
 #include <Arduino.h>
 
-//#include "variant.h"
-
 #include "config.h"
 #include "mpdcli.h"
 #include "buttons.h"
 #include "tftfunctions.h"
 #include "battery.h"
 #include "debug.h"
+#include "show_mpd_status.h"
 
 extern void test_mpdcli();
 
@@ -23,40 +22,16 @@ void setup() {
   init_tft();
   // initialize battery
   init_battery();
+  // show mpd_status at startup
+  show_mpd_status();
 }
 
 void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
-    tft_clear();
-    digitalWrite(LCD_BACKLIGHT, HIGH);
-    tft_println("Connecting WiFi...");
-    if (start_wifi()) {
-      tft_println("Connected.");
-    } else {
-      tft_println("Can't connect.");
-    }
-    MpdConnection con;
-    if (con.Connect(MPD_HOST, MPD_PORT)) {
-      con.GetStatus();
-      con.GetCurrentSong();
-      con.Disconnect();
-    }
-    delay(5000);
-    while (digitalRead(WIO_KEY_A) == LOW) {
-      delay(100);
-    }
-    digitalWrite(LCD_BACKLIGHT, LOW);
-    stop_wifi();
-    digitalWrite(LED_BUILTIN, LOW);
+    show_mpd_status();
   }
-
   if (digitalRead(WIO_KEY_B) == LOW) {
-    digitalWrite(LCD_BACKLIGHT, HIGH);
     printBatteryStats();
-    while (digitalRead(WIO_KEY_B) == LOW) {}
-    tft_clear();
-  } else {
-    digitalWrite(LCD_BACKLIGHT, LOW);
   }
   // put your main code here, to run repeatedly:
 }

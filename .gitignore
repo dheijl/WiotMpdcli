@@ -36,3 +36,5 @@ secret.h
 *.exe
 *.out
 *.app
+WiotMpdcli/.vscode/arduino.json
+WiotMpdcli/.vscode/c_cpp_properties.json

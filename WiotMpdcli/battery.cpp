@@ -33,6 +33,9 @@ void printBatteryStats() {
   if (!_have_battery) {
     return;
   }
+  tft_clear();
+  digitalWrite(LCD_BACKLIGHT, HIGH);
+
   // Read battery stats from the BQ27441-G1A
   unsigned int soc = lipo.soc();                    // Read state-of-charge (%)
   unsigned int volts = lipo.voltage();              // Read battery voltage (mV)
@@ -56,7 +59,6 @@ void printBatteryStats() {
 #endif
 
   // LCD Graphics
-  tft_clear();
   tft_println("Charge: " + String(soc) + " %");
   tft_println("Voltage: " + String(volts) + " mV");
   tft_println("Avg Current :" + String(current) + " mA");
@@ -64,4 +66,9 @@ void printBatteryStats() {
   tft_println("Full Cap :" + String(fullCapacity) + " mAH");
   tft_println("Avg Power: " + String(power) + " mW");
   tft_println("Health: " + String(health) + " %");
+
+  while (digitalRead(WIO_KEY_B) == LOW) {}
+
+  tft_clear();
+  digitalWrite(LCD_BACKLIGHT, LOW);
 }
