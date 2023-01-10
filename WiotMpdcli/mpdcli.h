@@ -243,6 +243,17 @@ public:
     tft_println(mpd_status.getState().c_str());
     return true;
   }
+  bool IsPlaying() {
+    DPRINT("Get Status");
+    Client.write(MPD_STATUS.c_str(), MPD_STATUS.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    DPRINT(data.c_str());
+    MpdStatus mpd_status(data);
+    return strncmp(mpd_status.getState().c_str(), "play", 4) == 0;
+  }
   bool GetCurrentSong() {
     DPRINT("GetCurrentSong");
     Client.write(MPD_CURRENTSONG.c_str(), MPD_CURRENTSONG.length());
