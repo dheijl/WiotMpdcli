@@ -1,7 +1,5 @@
 #include "config.h"
 
-
-
 #include "wifi.h"
 
 
@@ -11,7 +9,7 @@ bool start_wifi() {
   //pinMode(RTL8720D_CHIP_PU, OUTPUT);
   //digitalWrite(RTL8720D_CHIP_PU, HIGH);
   delay(100);
-    WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
 

@@ -17,6 +17,8 @@ static const int MPD_PORT = 6600;
 
 static const string MPD_CURRENTSONG = "currentsong\n";
 static const string MPD_STATUS = "status\n";
+static const string MPD_START = "play\n";
+static const string MPD_STOP = "stop\n";
 
 enum MpdResponseType {
   MpdOKType,
@@ -29,6 +31,7 @@ enum MpdResponseKind {
   MpdConnectKind,
   MpdCurrentSongKind,
   MpdStatusKind,
+  MpdCommandType,
   MpdFailureKind,
 };
 
@@ -97,7 +100,7 @@ public:
   string getResponseString() {
     return this->Response;
   }
-  MpdResponseType getResonseType() {
+  MpdResponseType getResponseType() {
     return this->ResponseType;
   }
   MpdResponseKind getResponseKind() {
@@ -131,7 +134,7 @@ private:
 public:
   MpdCurrentSong(const string response)
     : MpdResponse(response) {
-    if (this->getResonseType() == MpdOKType) {
+    if (this->getResponseType() == MpdOKType) {
       this->ResponseKind = MpdCurrentSongKind;
     } else {
       this->ResponseKind = MpdFailureKind;
@@ -154,7 +157,7 @@ private:
 public:
   MpdStatus(const string response)
     : MpdResponse(response) {
-    if (this->getResonseType() == MpdOKType) {
+    if (this->getResponseType() == MpdOKType) {
       this->ResponseKind = MpdStatusKind;
     } else {
       this->ResponseKind = MpdFailureKind;
@@ -162,6 +165,23 @@ public:
   }
   string getState() {
     return this->getItem("STATE");
+  }
+};
+
+class MpdSimpleCommand : public MpdResponse {
+private:
+  void abstract() override {}
+public:
+  MpdSimpleCommand(const string response)
+    : MpdResponse(response) {
+    if (this->getResponseType() == MpdOKType) {
+      this->ResponseKind = MpdCommandType;
+    } else {
+      this->ResponseKind = MpdFailureKind;
+    }
+  }
+  string GetResult() {
+    return this->getResponseType() == MpdOKType ? "OK" : "ERROR ";
   }
 };
 
@@ -240,4 +260,29 @@ public:
     tft_println(file);
     return true;
   }
+  bool Stop() {
+    DPRINT("Stop Play");
+    Client.write(MPD_STOP.c_str(), MPD_STOP.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    DPRINT(data.c_str());
+    MpdSimpleCommand mpd_command(data);
+    tft_println(mpd_command.GetResult().c_str());
+    return true;
+  }
+  bool Play() {
+    DPRINT("Start Play");
+    Client.write(MPD_START.c_str(), MPD_START.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    DPRINT(data.c_str());
+    MpdSimpleCommand mpd_command(data);
+    tft_println(mpd_command.GetResult().c_str());
+    return true;
+  }
+
 };

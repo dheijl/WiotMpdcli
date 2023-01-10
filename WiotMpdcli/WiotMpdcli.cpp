@@ -9,7 +9,7 @@
 #include "tftfunctions.h"
 #include "battery.h"
 #include "debug.h"
-#include "show_mpd_status.h"
+#include "mpd_commands.h"
 
 extern void test_mpdcli();
 
