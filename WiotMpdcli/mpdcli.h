@@ -243,8 +243,9 @@ public:
     tft_println(mpd_status.getState().c_str());
     return true;
   }
+
   bool IsPlaying() {
-    DPRINT("Get Status");
+    DPRINT("Check Status");
     Client.write(MPD_STATUS.c_str(), MPD_STATUS.length());
     string data = read_data();
     if (data.length() == 0) {
@@ -252,8 +253,11 @@ public:
     }
     DPRINT(data.c_str());
     MpdStatus mpd_status(data);
-    return strncmp(mpd_status.getState().c_str(), "play", 4) == 0;
+    string status = mpd_status.getState();
+    tft_println("Status: " + String(status.c_str()));
+    return status.compare("play") == 0;
   }
+
   bool GetCurrentSong() {
     DPRINT("GetCurrentSong");
     Client.write(MPD_CURRENTSONG.c_str(), MPD_CURRENTSONG.length());
@@ -271,6 +275,7 @@ public:
     tft_println(file);
     return true;
   }
+
   bool Stop() {
     DPRINT("Stop Play");
     Client.write(MPD_STOP.c_str(), MPD_STOP.length());
@@ -283,6 +288,7 @@ public:
     tft_println(mpd_command.GetResult().c_str());
     return true;
   }
+
   bool Play() {
     DPRINT("Start Play");
     Client.write(MPD_START.c_str(), MPD_START.length());

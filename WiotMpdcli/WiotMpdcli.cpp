@@ -33,5 +33,8 @@ void loop() {
   if (digitalRead(WIO_KEY_B) == LOW) {
     printBatteryStats();
   }
+  if (digitalRead(WIO_KEY_C) == LOW) {
+    toggle_mpd_status();
+  }
   // put your main code here, to run repeatedly:
 }

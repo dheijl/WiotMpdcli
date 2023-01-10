@@ -26,26 +26,17 @@ void exit_wifi() {
   digitalWrite(LED_BUILTIN, LOW);
 }
 
-void mpd_stop() {
+void toggle_mpd_status() {
   if (init_wifi()) {
     MpdConnection con;
     if (con.Connect(MPD_HOST, MPD_PORT)) {
-      con.Stop();
-      con.Disconnect();
-    }
-    delay(2000);
-    while (digitalRead(WIO_KEY_A) == LOW) {
-      delay(100);
-    }
-    exit_wifi();
-  }
-}
-
-void mpd_play() {
-  if (init_wifi()) {
-    MpdConnection con;
-    if (con.Connect(MPD_HOST, MPD_PORT)) {
-      con.Play();
+      if (con.IsPlaying()) {
+        tft_println("Stop playing");
+        con.Stop();
+      } else {
+        tft_println("Start playing");
+        con.Play();
+      }
       con.Disconnect();
     }
     delay(2000);
