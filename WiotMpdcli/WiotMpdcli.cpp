@@ -10,6 +10,7 @@
 #include "battery.h"
 #include "debug.h"
 #include "mpd_commands.h"
+#include "menu.h"
 
 extern void test_mpdcli();
 
@@ -36,5 +37,13 @@ void loop() {
   if (digitalRead(WIO_KEY_C) == LOW) {
     toggle_mpd_status();
   }
-  // put your main code here, to run repeatedly:
+  if (
+    (digitalRead(WIO_5S_UP) == LOW) || 
+    (digitalRead(WIO_5S_DOWN) == LOW) ||
+    (digitalRead(WIO_5S_LEFT) == LOW) ||
+    (digitalRead(WIO_5S_RIGHT) == LOW) ||
+    (digitalRead(WIO_5S_PRESS) == LOW) 
+    ) {
+      show_menu();
+  }
 }
