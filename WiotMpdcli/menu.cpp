@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include "menu.h"
 #include "tftfunctions.h"
 
@@ -44,24 +42,64 @@ static void read_ip(vector<char>& current_ip) {
 static vector<menuline> main_menu = vector<menuline>({
   { 4, 40, "Select Player" },
   { 4, 80, "Select Favourite" },
+  { 4, 120, "exit" },
 });
+
+static void display_menuline(menuline line, uint16_t color) {
+  tft_write(line.x, line.y, color, line.text);
+}
 
 static int display_menu(const vector<menuline> menu) {
   tft_clear();
-  int i = 0; 
   int selected = 0;
-  for (auto l : menu) {
-    if (i++ == selected) {
-      tft_write(l.x, l.y, TFT_GREENYELLOW, l.text);
-    } else {
-      tft_write(l.x, l.y, TFT_WHITE, l.text);
+  bool repaint = true;
+  while (true) {
+    if (repaint) {
+      repaint = false;
+      int i = 0;
+      for (auto l : menu) {
+        if (i++ == selected) {
+          display_menuline(l, TFT_GREENYELLOW);
+        } else {
+          display_menuline(l, TFT_WHITE);
+        }
+      }
     }
+    if (digitalRead(WIO_5S_UP) == LOW) {
+      while (digitalRead(WIO_5S_UP) == LOW) {
+        delay(1);
+      }
+      selected -= 1;
+      if (selected < 0) {
+        selected = 0;
+      }
+      repaint = true;
+      continue;
+    }
+    if (digitalRead(WIO_5S_DOWN) == LOW) {
+      while (digitalRead(WIO_5S_DOWN) == LOW) {
+        delay(1);
+      }
+      selected += 1;
+      if (selected > (menu.size() - 1)) {
+        selected = menu.size() - 1;
+      }
+      repaint = true;
+      continue;
+    }
+    if (digitalRead(WIO_5S_PRESS) == LOW) {
+      while (digitalRead(WIO_5S_PRESS) == LOW) {
+        delay(1);
+      }
+      return selected;
+    }
+    delay(1);
   }
-  /* ...*/
-  return selected;
 }
 
 void show_menu() {
+  tft_clear();
+  digitalWrite(LCD_BACKLIGHT, HIGH);
   int selected = display_menu(main_menu);
   /*
   digitalWrite(LCD_BACKLIGHT, HIGH);
@@ -71,7 +109,7 @@ void show_menu() {
   string ip(current_ip.begin(), current_ip.end());
   tft_println("IP=" + String(ip.c_str()));
  */
-  delay(5000);
+  delay(500);
   digitalWrite(LCD_BACKLIGHT, LOW);
   tft_clear();
 }

@@ -13,7 +13,6 @@ bool start_wifi() {
   WiFi.disconnect();
   delay(100);
 
-  DPRINT("Connecting to WiFi..");
   WiFi.begin(WIFI_SSID, WIFI_PSW);
   if (WiFi.status() == WL_CONNECTED) {
     return true;
@@ -23,7 +22,6 @@ bool start_wifi() {
 }
 
 void stop_wifi() {
-  DPRINT("Disconnect wifi");
   WiFi.disconnect();
   delay(100);
   //Turn off WiFi

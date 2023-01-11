@@ -3,6 +3,7 @@
 #include <string>
 #include "TFT_eSPI.h"
 #include "Free_Fonts.h"  //include the header file
+#include "config.h"
 
 using namespace std;
 
