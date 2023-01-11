@@ -7,7 +7,7 @@
 using namespace std;
 
 void init_tft();
-void tft_write(int x, int y, string s);
+void tft_write(int16_t x, int16_t y, uint16_t color, String s);
 void tft_println(const String s);
 
 void tft_clear();

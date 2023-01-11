@@ -15,7 +15,10 @@ void init_tft() {
   tft.println("TFT initialized!");
 }
 
-void tft_write(int x, int y, string s) {
+void tft_write(int16_t x, int16_t y, uint16_t color, String s) {
+  tft.setCursor(x, y);
+  tft.setTextColor(color);
+  tft.println(s.c_str());
 }
 
 void tft_println(const String s) {

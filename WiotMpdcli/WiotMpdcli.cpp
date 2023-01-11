@@ -24,7 +24,7 @@ void setup() {
   // initialize battery
   init_battery();
   // show mpd_status at startup
-  show_mpd_status();
+  //show_mpd_status();
 }
 
 void loop() {

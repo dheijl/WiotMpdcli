@@ -39,16 +39,38 @@ static void read_ip(vector<char>& current_ip) {
     DPRINT("Can't read file");
     tft_println("Can't read file");
   }
-} 
+}
+
+static vector<menuline> main_menu = vector<menuline>({
+  { 4, 40, "Select Player" },
+  { 4, 80, "Select Favourite" },
+});
+
+static int display_menu(const vector<menuline> menu) {
+  tft_clear();
+  int i = 0; 
+  int selected = 0;
+  for (auto l : menu) {
+    if (i++ == selected) {
+      tft_write(l.x, l.y, TFT_GREENYELLOW, l.text);
+    } else {
+      tft_write(l.x, l.y, TFT_WHITE, l.text);
+    }
+  }
+  /* ...*/
+  return selected;
+}
 
 void show_menu() {
-  tft_clear();
+  int selected = display_menu(main_menu);
+  /*
   digitalWrite(LCD_BACKLIGHT, HIGH);
   write_ip("192.168.0.129");
   vector<char> current_ip; 
   read_ip(current_ip);
   string ip(current_ip.begin(), current_ip.end());
   tft_println("IP=" + String(ip.c_str()));
+ */
   delay(5000);
   digitalWrite(LCD_BACKLIGHT, LOW);
   tft_clear();
