@@ -37,13 +37,7 @@ void loop() {
   if (digitalRead(WIO_KEY_C) == LOW) {
     toggle_mpd_status();
   }
-  if (
-    (digitalRead(WIO_5S_UP) == LOW) || 
-    (digitalRead(WIO_5S_DOWN) == LOW) ||
-    (digitalRead(WIO_5S_LEFT) == LOW) ||
-    (digitalRead(WIO_5S_RIGHT) == LOW) ||
-    (digitalRead(WIO_5S_PRESS) == LOW) 
-    ) {
+  if (digitalRead(WIO_5S_PRESS) == LOW) {
       show_menu();
   }
 }

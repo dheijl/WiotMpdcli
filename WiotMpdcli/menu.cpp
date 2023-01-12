@@ -40,9 +40,9 @@ static void read_ip(vector<char>& current_ip) {
 }
 
 static vector<menuline> main_menu = vector<menuline>({
-  { 4, 40, "Select Player" },
-  { 4, 80, "Select Favourite" },
-  { 4, 120, "exit" },
+  { 4, 40, "Select Favourite" },
+  { 4, 80, "Select Player" },
+  { 4, 120, "Return" },
 });
 
 static void display_menuline(menuline line, uint16_t color) {
@@ -65,33 +65,34 @@ static int display_menu(const vector<menuline> menu) {
         }
       }
     }
+    int down_time = 400;
     if (digitalRead(WIO_5S_UP) == LOW) {
-      while (digitalRead(WIO_5S_UP) == LOW) {
+      while ((digitalRead(WIO_5S_UP) == LOW) && (down_time-- > 0)) {
         delay(1);
       }
       selected -= 1;
       if (selected < 0) {
-        selected = 0;
-      }
-      repaint = true;
-      continue;
-    }
-    if (digitalRead(WIO_5S_DOWN) == LOW) {
-      while (digitalRead(WIO_5S_DOWN) == LOW) {
-        delay(1);
-      }
-      selected += 1;
-      if (selected > (menu.size() - 1)) {
         selected = menu.size() - 1;
       }
       repaint = true;
       continue;
     }
-    if (digitalRead(WIO_5S_PRESS) == LOW) {
-      while (digitalRead(WIO_5S_PRESS) == LOW) {
+    if (digitalRead(WIO_5S_DOWN) == LOW) {
+      while ((digitalRead(WIO_5S_DOWN) == LOW) && (down_time-- > 0)) {
         delay(1);
       }
+      selected += 1;
+      if (selected > (menu.size() - 1)) {
+        selected = 0;
+      }
+      repaint = true;
+      continue;
+    }
+    if (digitalRead(WIO_5S_RIGHT) == LOW) {
       return selected;
+    }
+    if (digitalRead(WIO_5S_LEFT) == LOW) {
+      return -1;
     }
     delay(1);
   }

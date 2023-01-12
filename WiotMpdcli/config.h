@@ -1,6 +1,7 @@
 #pragma once
 
-#undef DEBUG 
+#undef DEBUG
+//#define DEBUG 
 #undef DEBUGMPDMESSAGES 
 
 #ifdef DEBUG
