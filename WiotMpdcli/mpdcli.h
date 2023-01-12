@@ -12,11 +12,6 @@
 
 using namespace std;
 
-static char* MPD_HOST_1 = "192.168.0.129";
-static char* MPD_HOST_2 = "192.168.0.254";
-static char* MPD_HOST = MPD_HOST_1;
-static const int MPD_PORT = 6600;
-
 static const string MPD_CURRENTSONG = "currentsong\n";
 static const string MPD_STATUS = "status\n";
 static const string MPD_START = "play\n";

@@ -5,6 +5,10 @@
 #include "mpdcli.h"
 #include "tftfunctions.h"
 #include "mpd_commands.h"
+#include "flash_fs.h"
+
+static string MPD_HOST = "";
+static const int MPD_PORT = 6600;
 
 bool init_wifi() {
   tft_clear();
@@ -12,6 +16,10 @@ bool init_wifi() {
   tft_println("Connecting WiFi...");
   if (start_wifi()) {
     tft_println("Connected.");
+    vector<char> ip;
+    read_player_ip(ip);
+    MPD_HOST = string(ip.begin(), ip.end());
+    tft_println(String("Player: " + String(MPD_HOST.c_str())));
     return true;
   } else {
     tft_println("Can't connect.");
@@ -29,7 +37,7 @@ void exit_wifi() {
 void toggle_mpd_status() {
   if (init_wifi()) {
     MpdConnection con;
-    if (con.Connect(MPD_HOST, MPD_PORT)) {
+    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
       if (con.IsPlaying()) {
         tft_println("Stop playing");
         con.Stop();
@@ -50,7 +58,7 @@ void toggle_mpd_status() {
 void show_mpd_status() {
   if (init_wifi()) {
     MpdConnection con;
-    if (con.Connect(MPD_HOST, MPD_PORT)) {
+    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
       con.GetStatus();
       con.GetCurrentSong();
       con.Disconnect();
