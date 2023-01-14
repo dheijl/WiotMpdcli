@@ -1,11 +1,19 @@
+#include <vector>
 #include "flash_fs.h"
 #include "tftfunctions.h"
 
-static char* MPD_IPS[] = {
- "192.168.0.129",
- "192.168.0.254",
+static vector<MPD_PLAYER> players = {
+  {
+    PLAYER1_NAME,
+    PLAYER1_IP,
+    PLAYER1_PORT,
+  },
+  {
+    PLAYER1_NAME,
+    PLAYER1_IP,
+    PLAYER1_PORT,
+  },
 };
-
 
 static void write_ip(const char* new_ip) {
   while (!SFUD.begin(104000000UL)) {
@@ -22,6 +30,10 @@ static void write_ip(const char* new_ip) {
     tft_println("Can't write file");
   }
   SFUD.end();
+}
+
+vector<MPD_PLAYER>& get_players() {
+  return players;
 }
 
 void read_player_ip(vector<char>& current_ip) {
@@ -42,9 +54,9 @@ void read_player_ip(vector<char>& current_ip) {
     }
   } else {
     tft_println("Can't read ip.txt");
-    write_ip(MPD_IPS[0]);
+    write_ip(players[0].player_ip.c_str());
     current_ip.clear();
-    for (auto c : String(MPD_IPS[0])) {
+    for (auto c : String(players[0].player_ip.c_str())) {
       current_ip.push_back(c);
     }
   }
