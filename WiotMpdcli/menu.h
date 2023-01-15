@@ -9,6 +9,8 @@
 #include <string>
 
 #include "config.h"
+#include "flash_fs.h"
+
 using namespace std;
 
 typedef struct MENULINE {

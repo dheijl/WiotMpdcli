@@ -1,3 +1,4 @@
+#include "flash_fs.h"
 #include "menu.h"
 #include "tftfunctions.h"
 
@@ -5,6 +6,12 @@
 static vector<menuline> main_menu = vector<menuline>({
   { 4, 40, "Select Favourite" },
   { 4, 80, "Select Player" },
+  { 4, 120, "Return" },
+});
+
+static vector<menuline> player_menu = vector<menuline>({
+  { 4, 40, PLAYER1_NAME },
+  { 4, 80, PLAYER2_NAME },
   { 4, 120, "Return" },
 });
 
@@ -52,6 +59,9 @@ static int display_menu(const vector<menuline> menu) {
       continue;
     }
     if (digitalRead(WIO_5S_RIGHT) == LOW) {
+      while ((digitalRead(WIO_5S_RIGHT) == LOW) && (down_time-- > 0)) {
+        delay(1);
+      }
       return selected;
     }
     if (digitalRead(WIO_5S_LEFT) == LOW) {
@@ -65,14 +75,17 @@ void show_menu() {
   tft_clear();
   digitalWrite(LCD_BACKLIGHT, HIGH);
   int selected = display_menu(main_menu);
-  /*
-  digitalWrite(LCD_BACKLIGHT, HIGH);
-  write_ip("192.168.0.129");
-  vector<char> current_ip; 
-  read_ip(current_ip);
-  string ip(current_ip.begin(), current_ip.end());
-  tft_println("IP=" + String(ip.c_str()));
- */
+  switch (selected) {
+    case -1:  // return
+      break;
+    case 0:  // select favourite
+      break;
+    case 1:  // select player
+      selected = display_menu(player_menu);
+      break;
+    default:  // impossible, ignore
+      break;
+  }
   delay(500);
   digitalWrite(LCD_BACKLIGHT, LOW);
   tft_clear();
