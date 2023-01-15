@@ -30,6 +30,9 @@ void test_mpdcli()
 		"file: http://icecast.vrtcdn.be/stubru_tijdloze-high.mp3\n"\
 		"Title: De Tijdloze\n"\
 		"Name: StuBru De Tijdloze | Kwaliteit * **\n"\
+    "Artist: Anweledig"\
+    "AlbumArtist: Anweledig"\
+    "Album: Gweld y Llun"\
 		"Pos: 0\n"\
 		"Id: 16\n"\
 		"OK\n";

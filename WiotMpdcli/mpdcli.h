@@ -146,6 +146,16 @@ public:
   string getTitle() {
     return this->getItem("TITLE");
   }
+  string getArtist() {
+    string artist = this->getItem("ARTIST");
+    if (artist.empty()) {
+      artist = this->getItem("ALBUMARTIST");
+    }
+    return artist;
+  }
+  string getAlbum() {
+    return this->getItem("ALBUM");
+  }
 };
 
 class MpdStatus : public MpdResponse {
@@ -255,12 +265,22 @@ public:
       return false;
     }
     MpdCurrentSong mpd_cs(data);
-    tft_println(mpd_cs.getName().c_str());
-    tft_println(mpd_cs.getTitle().c_str());
     String file = String(mpd_cs.getFile().c_str());
     int p = file.lastIndexOf('/');
     file = file.substring(p + 1);
     tft_println(file);
+    string name = mpd_cs.getName();
+    if (!name.empty()) {
+      tft_println(name.c_str());
+    }
+    string title = mpd_cs.getTitle();
+    if (!title.empty()) {
+      tft_println(title.c_str());
+    }
+    string artist = mpd_cs.getArtist();
+    if (!artist.empty()) {
+      tft_println(artist.c_str());
+    }
     return true;
   }
 
@@ -285,5 +305,4 @@ public:
     tft_println(mpd_command.GetResult().c_str());
     return true;
   }
-
 };
