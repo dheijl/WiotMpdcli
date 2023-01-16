@@ -9,9 +9,9 @@ static vector<MPD_PLAYER> players = {
     PLAYER1_PORT,
   },
   {
-    PLAYER1_NAME,
-    PLAYER1_IP,
-    PLAYER1_PORT,
+    PLAYER2_NAME,
+    PLAYER2_IP,
+    PLAYER2_PORT,
   },
 };
 
@@ -54,11 +54,15 @@ void read_player_ip(vector<char>& current_ip) {
     }
   } else {
     tft_println("Can't read ip.txt");
-    write_ip(players[0].player_ip.c_str());
+    write_ip(players[0].player_ip);
     current_ip.clear();
-    for (auto c : String(players[0].player_ip.c_str())) {
+    for (auto c : String(players[0].player_ip)) {
       current_ip.push_back(c);
     }
   }
   SFUD.end();
+}
+
+const vector<MPD_PLAYER>* get_player_info() {
+  return &players;
 }

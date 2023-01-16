@@ -13,11 +13,11 @@
 
 using namespace std;
 
-typedef struct MENULINE {
+typedef struct menuline {
   uint16_t x;
   uint16_t y;
-  String text;
-} menuline;
+  const char* text;
+} MENULINE;
 
 
 void show_menu();

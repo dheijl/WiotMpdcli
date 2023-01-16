@@ -3,23 +3,17 @@
 #include "tftfunctions.h"
 
 
-static vector<menuline> main_menu = vector<menuline>({
-  { 4, 40, "Select Favourite" },
-  { 4, 80, "Select Player" },
-  { 4, 120, "Return" },
+static vector<MENULINE*> main_menu = vector<MENULINE*>({
+  new MENULINE { 4, 40, "Select Favourite" },
+  new MENULINE { 4, 80, "Select Player" },
+  new MENULINE { 4, 120, "Return" },
 });
 
-static vector<menuline> player_menu = vector<menuline>({
-  { 4, 40, PLAYER1_NAME },
-  { 4, 80, PLAYER2_NAME },
-  { 4, 120, "Return" },
-});
-
-static void display_menuline(menuline line, uint16_t color) {
-  tft_write(line.x, line.y, color, line.text);
+static void display_menuline(const MENULINE* line, uint16_t color) {
+  tft_write(line->x, line->y, color, String(line->text));
 }
 
-static int display_menu(const vector<menuline> menu) {
+static int display_menu(const vector<MENULINE*> menu) {
   tft_clear();
   int selected = 0;
   bool repaint = true;
@@ -81,7 +75,26 @@ void show_menu() {
     case 0:  // select favourite
       break;
     case 1:  // select player
-      selected = display_menu(player_menu);
+      {
+        auto players = get_player_info();
+        vector<MENULINE*> player_menu;
+        uint16_t pos = 40;
+        for (auto p : *players) {
+          MENULINE* m = new MENULINE { 4, pos, p.player_name };
+          DPRINT("Name: " + String(m->text));
+          pos += 40;
+          player_menu.push_back(m);
+        }
+        MENULINE *ret = new MENULINE { 4, pos, "Return" };
+        player_menu.push_back(ret);
+        for (auto l: player_menu) {
+          DPRINT("Name: " + String(l->text));
+        }
+        selected = display_menu(player_menu);
+
+        //
+        player_menu.clear();
+      }
       break;
     default:  // impossible, ignore
       break;
