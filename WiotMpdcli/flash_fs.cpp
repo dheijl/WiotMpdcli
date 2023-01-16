@@ -15,7 +15,7 @@ static vector<MPD_PLAYER> players = {
   },
 };
 
-static void write_ip(const char* new_ip) {
+void write_player_ip(const char* new_ip) {
   while (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");
     return;
@@ -54,7 +54,7 @@ void read_player_ip(vector<char>& current_ip) {
     }
   } else {
     tft_println("Can't read ip.txt");
-    write_ip(players[0].player_ip);
+    write_player_ip(players[0].player_ip);
     current_ip.clear();
     for (auto c : String(players[0].player_ip)) {
       current_ip.push_back(c);

@@ -91,13 +91,17 @@ void show_menu() {
           DPRINT("Name: " + String(l->text));
         }
         selected = display_menu(player_menu);
-//
-//......
-//
+        if ((selected >= 0) && (selected < player_menu.size())) {
+          auto ip = (*players)[selected].player_ip;
+          tft_clear();
+          tft_println("New player @" + String(ip));
+          write_player_ip(ip);
+        }
         for (auto ml = player_menu.begin(); ml != player_menu.end(); ++ml) {
           delete *ml;
         }
         player_menu.clear();
+        delay(500);
       }
       break;
     default:  // impossible, ignore

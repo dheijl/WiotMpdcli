@@ -242,7 +242,7 @@ public:
       return false;
     }
     MpdStatus mpd_status(data);
-    tft_println(mpd_status.getState().c_str());
+    tft_println("MPD status: " + String(mpd_status.getState().c_str()));
     return true;
   }
 
@@ -254,7 +254,7 @@ public:
     }
     MpdStatus mpd_status(data);
     string status = mpd_status.getState();
-    tft_println("Status: " + String(status.c_str()));
+    tft_println("MPD status: " + String(status.c_str()));
     return status.compare("play") == 0;
   }
 
