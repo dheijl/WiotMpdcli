@@ -4,9 +4,9 @@
 
 
 static vector<MENULINE*> main_menu = vector<MENULINE*>({
-  new MENULINE { 4, 40, "Select Favourite" },
-  new MENULINE { 4, 80, "Select Player" },
-  new MENULINE { 4, 120, "Return" },
+  new MENULINE{ 4, 40, "Select Favourite" },
+  new MENULINE{ 4, 80, "Select Player" },
+  new MENULINE{ 4, 120, "Return" },
 });
 
 static void display_menuline(const MENULINE* line, uint16_t color) {
@@ -80,19 +80,23 @@ void show_menu() {
         vector<MENULINE*> player_menu;
         uint16_t pos = 40;
         for (auto p : *players) {
-          MENULINE* m = new MENULINE { 4, pos, p.player_name };
+          MENULINE* m = new MENULINE{ 4, pos, p.player_name };
           DPRINT("Name: " + String(m->text));
           pos += 40;
           player_menu.push_back(m);
         }
-        MENULINE *ret = new MENULINE { 4, pos, "Return" };
+        MENULINE* ret = new MENULINE{ 4, pos, "Return" };
         player_menu.push_back(ret);
-        for (auto l: player_menu) {
+        for (auto l : player_menu) {
           DPRINT("Name: " + String(l->text));
         }
         selected = display_menu(player_menu);
-
-        //
+//
+//......
+//
+        for (auto ml = player_menu.begin(); ml != player_menu.end(); ++ml) {
+          delete *ml;
+        }
         player_menu.clear();
       }
       break;
