@@ -60,5 +60,5 @@ void loop() {
   if ((is_wifi_connected() && (millis() - wifi_started) > wifi_timer)) {
     stop_wifi();
   }
-  delayMicroseconds(0);
+  delay(1);
 }
