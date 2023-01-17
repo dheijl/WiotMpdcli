@@ -20,3 +20,12 @@ The joystick (5S) is used for a menu system that allows you to:
 - select a favourite from a list of (currently 10) favourites
   
 The currently active MPD player IP address is stored in the 4MB on board QSPI flash, using Seed's SFUD file system, so that it survives power-off and reset without needing an SD card.
+
+The WiFi SSID and pasword are stored in a file named "secret.h" that you have to add to the project before it will build:
+
+```cpp
+#pragma once
+
+#define WIFI_SSID "your_ssid"
+#define WIFI_PSW "your_wifi_password"
+``` 
