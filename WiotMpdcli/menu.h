@@ -16,8 +16,13 @@ using namespace std;
 typedef struct menuline {
   uint16_t x;
   uint16_t y;
-  const char* text;
+  const char *text;
 } MENULINE;
 
+typedef struct favourite {
+  const char *fav_name;
+  const char *fav_url;
+} FAVOURITE;
 
-void show_menu();
+void
+show_menu();

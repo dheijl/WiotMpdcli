@@ -30,4 +30,4 @@ typedef struct mpd_player {
 void read_player_ip(vector<char>&);
 void write_player_ip(const char* ip);
 
-const vector<MPD_PLAYER>* get_player_info();
+const vector<MPD_PLAYER>& get_player_info();

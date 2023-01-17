@@ -10,8 +10,7 @@
 static string MPD_HOST = "";
 static const int MPD_PORT = 6600;
 
-bool init_wifi() {
-  tft_clear();
+static bool connect_mpd() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
   tft_println("Connecting WiFi...");
   if (start_wifi()) {
@@ -27,7 +26,7 @@ bool init_wifi() {
   }
 }
 
-void exit_wifi() {
+static void disconnect_mpd() {
   stop_wifi();
   digitalWrite(LCD_BACKLIGHT, LOW);
   tft_clear();
@@ -35,7 +34,7 @@ void exit_wifi() {
 }
 
 void toggle_mpd_status() {
-  if (init_wifi()) {
+  if (connect_mpd()) {
     MpdConnection con;
     if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
       if (con.IsPlaying()) {
@@ -51,12 +50,12 @@ void toggle_mpd_status() {
     while (digitalRead(WIO_KEY_A) == LOW) {
       delay(100);
     }
-    exit_wifi();
+    disconnect_mpd();
   }
 }
 
 void show_mpd_status() {
-  if (init_wifi()) {
+  if (connect_mpd()) {
     MpdConnection con;
     if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
       con.GetStatus();
@@ -67,6 +66,19 @@ void show_mpd_status() {
     while (digitalRead(WIO_KEY_A) == LOW) {
       delay(100);
     }
-    exit_wifi();
+    disconnect_mpd();
+  }
+}
+
+void play_favourite(const char *url) {
+  if (connect_mpd()) {
+    MpdConnection con;
+    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
+      con.Clear();
+      con.Add_Url(url);
+      con.Play();
+    }
+    delay(2000);
+    disconnect_mpd();
   }
 }

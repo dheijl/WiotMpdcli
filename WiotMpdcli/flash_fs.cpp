@@ -1,4 +1,3 @@
-#include <vector>
 #include "flash_fs.h"
 #include "tftfunctions.h"
 
@@ -63,6 +62,6 @@ void read_player_ip(vector<char>& current_ip) {
   SFUD.end();
 }
 
-const vector<MPD_PLAYER>* get_player_info() {
-  return &players;
+const vector<MPD_PLAYER>& get_player_info() {
+  return players;
 }

@@ -16,6 +16,8 @@ static const string MPD_CURRENTSONG = "currentsong\n";
 static const string MPD_STATUS = "status\n";
 static const string MPD_START = "play\n";
 static const string MPD_STOP = "stop\n";
+static const string MPD_CLEAR = "clear\n";
+static const string MPD_ADD = "add {}\n";
 
 enum MpdResponseType {
   MpdOKType,
@@ -297,6 +299,32 @@ public:
 
   bool Play() {
     Client.write(MPD_START.c_str(), MPD_START.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    MpdSimpleCommand mpd_command(data);
+    tft_println(mpd_command.GetResult().c_str());
+    return true;
+  }
+
+  bool Clear() {
+    Client.write(MPD_CLEAR.c_str(), MPD_CLEAR.length());
+    string data = read_data();
+    if (data.length() == 0) {
+      return false;
+    }
+    MpdSimpleCommand mpd_command(data);
+    tft_println(mpd_command.GetResult().c_str());
+    return true;
+  }
+
+  bool Add_Url(const char *url) {
+    string add_cmd(MPD_ADD);
+    int pos = add_cmd.find("{}");
+    add_cmd.replace(pos, 2, url);
+    tft_println(add_cmd.c_str());    
+    Client.write(add_cmd.c_str(), add_cmd.length());
     string data = read_data();
     if (data.length() == 0) {
       return false;
