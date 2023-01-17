@@ -14,6 +14,8 @@
 
 extern void test_mpdcli();
 
+static unsigned long wifi_started = 0;
+
 void setup() {
   // init debug code
   init_debug();
@@ -23,21 +25,34 @@ void setup() {
   init_tft();
   // initialize battery
   init_battery();
-  // show mpd_status at startup
-  //show_mpd_status();
+  if (start_wifi()) {
+    wifi_started = millis();
+  }
+  tft_clear();
+  digitalWrite(LCD_BACKLIGHT, LOW);
 }
 
 void loop() {
   if (digitalRead(WIO_KEY_A) == LOW) {
+    start_wifi();
+    wifi_started = millis();
     show_mpd_status();
+    wifi_started = millis();
   }
   if (digitalRead(WIO_KEY_B) == LOW) {
     printBatteryStats();
   }
   if (digitalRead(WIO_KEY_C) == LOW) {
+    start_wifi();
     toggle_mpd_status();
+    wifi_started = millis();
   }
   if (digitalRead(WIO_5S_PRESS) == LOW) {
-      show_menu();
+    start_wifi();
+    show_menu();
+    wifi_started = millis();
+  }
+  if ((is_wifi_connected() && (millis() - wifi_started) > 10000UL)) {
+    stop_wifi();
   }
 }

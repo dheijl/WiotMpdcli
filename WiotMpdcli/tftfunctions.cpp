@@ -13,9 +13,6 @@ void init_tft() {
   tft.setFreeFont(FM9);
   tft.println();
   tft.println("TFT initialized!");
-  delay(400);
-  tft_clear();
-  digitalWrite(LCD_BACKLIGHT, LOW);
 }
 
 void tft_write(int16_t x, int16_t y, uint16_t color, String s) {

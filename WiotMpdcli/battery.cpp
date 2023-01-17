@@ -23,8 +23,6 @@ bool init_battery(void) {
   // of your battery.
   lipo.setCapacity(BATTERY_CAPACITY);
   _have_battery = true;
-  // disable leds when on battery
-  digitalWrite(LED_BUILTIN, LOW);
   return true;
 }
 

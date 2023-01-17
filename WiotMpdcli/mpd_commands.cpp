@@ -12,9 +12,7 @@ static const int MPD_PORT = 6600;
 
 static bool connect_mpd() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
-  tft_println("Connecting WiFi...");
   if (start_wifi()) {
-    tft_println("Connected.");
     vector<char> ip;
     read_player_ip(ip);
     MPD_HOST = string(ip.begin(), ip.end());
@@ -27,10 +25,8 @@ static bool connect_mpd() {
 }
 
 static void disconnect_mpd() {
-  stop_wifi();
   digitalWrite(LCD_BACKLIGHT, LOW);
   tft_clear();
-  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void toggle_mpd_status() {
@@ -62,7 +58,7 @@ void show_mpd_status() {
       con.GetCurrentSong();
       con.Disconnect();
     }
-    delay(5000);
+    delay(3000);
     while (digitalRead(WIO_KEY_A) == LOW) {
       delay(100);
     }
