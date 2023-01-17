@@ -14,10 +14,9 @@ Pushing KEY_B will display the battery status while the key is down.
 
 KEY_C acts as a toggle for starting/stopping the MPD player.
 
-WIP: the joystick is used for a menu system that allows you to:
+The joystick (5S) is used for a menu system that allows you to:
 
-- select a player from a list
-- select a favourite from a list
-- ???
+- select a player from a list of players
+- select a favourite from a list of (currently 10) favourites
   
 The currently active MPD player IP address is stored in the 4MB on board QSPI flash, using Seed's SFUD file system, so that it survives power-off and reset without needing an SD card.
