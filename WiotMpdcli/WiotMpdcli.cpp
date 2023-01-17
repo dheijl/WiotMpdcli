@@ -1,4 +1,3 @@
-#include "wiring_digital.h"
 #include "wifi.h"
 #include "variant.h"
 #include <Arduino.h>
@@ -26,13 +25,19 @@ void setup() {
   // initialize battery
   init_battery();
   if (start_wifi()) {
+    tft_clear();
+    show_mpd_status();
     wifi_started = millis();
+  } else {
+    tft_println("Connection FAIL!");
+    delay(1000);
   }
   tft_clear();
   digitalWrite(LCD_BACKLIGHT, LOW);
 }
 
 void loop() {
+  unsigned long wifi_timer = 5000UL;
   if (digitalRead(WIO_KEY_A) == LOW) {
     start_wifi();
     wifi_started = millis();
@@ -52,7 +57,8 @@ void loop() {
     show_menu();
     wifi_started = millis();
   }
-  if ((is_wifi_connected() && (millis() - wifi_started) > 10000UL)) {
+  if ((is_wifi_connected() && (millis() - wifi_started) > wifi_timer)) {
     stop_wifi();
   }
+  delayMicroseconds(0);
 }
