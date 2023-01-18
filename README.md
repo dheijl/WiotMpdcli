@@ -14,12 +14,18 @@ Pushing KEY_B will display the battery status while the key is down.
 
 KEY_C acts as a toggle for starting/stopping the MPD player.
 
+Keep the button pressed to prevent the screen (power) saver to kick in after a few seconds.
+
 The joystick (5S) is used for a menu system that allows you to:
 
 - select a player from a list of players
 - select a favourite from a list of (currently 10) favourites
   
 The currently active MPD player IP address is stored in the 4MB on board QSPI flash, using Seed's SFUD file system, so that it survives power-off and reset without needing an SD card.
+
+At power-on or reset the WiFi connection is established, and the _status/current file or url/currentsong_ of the active MPD player is shown for a couple of seconds. The wifi connection is kept active for 5 seconds after the last button press (except battery status as it does not need wifi). The blue LED is ON while the WiFi connection is established, and OFF when there is currently no WiFi connection. The WiFi connection will be re-established as needed, and dropped after the 5 second time-out.
+The TFT screen is always kept disabled except for some seconds when something is being shown after power-on or a button press, or while a button is kept pressed
+down. 
 
 The WiFi SSID and pasword are stored in a file named "secret.h" that you have to add to the project before it will build:
 
