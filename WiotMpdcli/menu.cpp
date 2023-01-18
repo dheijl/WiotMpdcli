@@ -1,8 +1,7 @@
-#include "mpd_commands.h"
-#include "flash_fs.h"
 #include "menu.h"
+#include "flash_fs.h"
+#include "mpd_commands.h"
 #include "tftfunctions.h"
-
 
 static vector<MENULINE*> main_menu = vector<MENULINE*>({
   new MENULINE{ 4, 40, "Select Favourite" },
@@ -85,7 +84,6 @@ static void select_player() {
   uint16_t pos = 40;
   for (auto p : players) {
     MENULINE* m = new MENULINE{ 4, pos, p.player_name };
-    DPRINT("Name: " + String(m->text));
     pos += 40;
     player_menu.push_back(m);
   }

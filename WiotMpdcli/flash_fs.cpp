@@ -15,7 +15,7 @@ static vector<MPD_PLAYER> players = {
 };
 
 void write_player_ip(const char* new_ip) {
-  while (!SFUD.begin(104000000UL)) {
+  if (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");
     return;
   }
@@ -36,7 +36,7 @@ vector<MPD_PLAYER>& get_players() {
 }
 
 void read_player_ip(vector<char>& current_ip) {
-  while (!SFUD.begin(104000000UL)) {
+  if (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");
     return;
   }

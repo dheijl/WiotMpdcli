@@ -1,7 +1,7 @@
-#include "variant.h"
-#include "config.h"
 #include "battery.h"
+#include "config.h"
 #include "tftfunctions.h"
+#include "variant.h"
 
 const unsigned int BATTERY_CAPACITY = 650;  // Set Wio Terminal Battery's Capacity
 
@@ -13,8 +13,6 @@ bool init_battery(void) {
   {
     // If communication fails, print an error message and loop forever.
     DPRINT("Error: Unable to communicate with BQ27441.");
-    DPRINT("  Check wiring and try again.");
-    DPRINT("  (Battery must be plugged into Battery Babysitter!)");
     tft_println("Battery Not Initialised!");
     return false;
   }
@@ -26,7 +24,6 @@ bool init_battery(void) {
   return true;
 }
 
-
 void printBatteryStats() {
   if (!_have_battery) {
     return;
@@ -35,13 +32,13 @@ void printBatteryStats() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
 
   // Read battery stats from the BQ27441-G1A
-  unsigned int soc = lipo.soc();                    // Read state-of-charge (%)
+  unsigned int soc = lipo.soc(FILTERED);            // Read state-of-charge (%)
   unsigned int volts = lipo.voltage();              // Read battery voltage (mV)
   int current = lipo.current(AVG);                  // Read average current (mA)
   unsigned int fullCapacity = lipo.capacity(FULL);  // Read full capacity (mAh)
   unsigned int capacity = lipo.capacity(REMAIN);    // Read remaining capacity (mAh)
   int power = lipo.power();                         // Read average power draw (mW)
-  int health = lipo.soh();                          // Read state-of-health (%)
+  int health = lipo.soh(PERCENT);                   // Read state-of-health (%)
 
 #ifdef DEBUG
   // Now print out those values:
