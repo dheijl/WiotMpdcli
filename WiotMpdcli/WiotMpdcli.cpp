@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "mpd_commands.h"
 #include "menu.h"
+#include "sdcard_fs.h"
 
 extern void test_mpdcli();
 
@@ -24,6 +25,10 @@ void setup() {
   init_tft();
   // initialize battery
   init_battery();
+  // check for SD card with configuration
+  read_players();
+  read_favourites();
+  // start wifi
   if (start_wifi()) {
     tft_clear();
     show_mpd_status();
