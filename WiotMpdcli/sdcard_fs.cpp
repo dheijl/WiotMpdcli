@@ -1,9 +1,23 @@
+#include "tftfunctions.h"
+#include "config.h"
 
 #include "sdcard_fs.h"
 
-vector<string*> players;
+vector<MPD_PLAYER *> mpd_players;
 
-vector<string*> favourites;
+vector<FAVOURITE *> favourites;
+
+static vector<string> split(const string &s, char delim) {
+  vector<string> result;
+  size_t start;
+  size_t end = 0;
+
+  while ((start = s.find_first_not_of(delim, end)) != std::string::npos) {
+    end = s.find(delim, start);
+    result.push_back(s.substr(start, end - start));
+  }
+  return result;
+}
 
 bool read_players() {
 
@@ -17,10 +31,17 @@ bool read_players() {
   if (plf) {
     tft_println("Init players..");
     while (plf.available()) {
-      String pl = plf.readStringUntil('\n');
+      string pl = plf.readStringUntil('\n').c_str();
       if (pl.length() > 1) {
-        tft_println(pl);
-        players.push_back(new string(pl.c_str()));
+        vector<string> parts = split(pl, '|');
+        if (parts.size() == 3) {
+          MPD_PLAYER *mpd = new MPD_PLAYER();
+          mpd->player_ip = strdup(parts[0].c_str());
+          mpd->player_name = strdup(parts[1].c_str());
+          mpd->player_port = stoi(parts[2]);
+          mpd_players.push_back(mpd);
+          tft_println(String(mpd->player_ip) + " " + String(mpd->player_name) + " " + String(mpd->player_port));
+        }
       }
     }
     plf.close();
@@ -39,14 +60,19 @@ bool read_favourites() {
     SD.end();
     return false;
   }
-
   File favf = SD.open("favs.txt", FILE_READ);
   if (favf) {
     tft_println("Init favourites..");
     while (favf.available()) {
-      String fav = favf.readStringUntil('\n');
+      string fav = favf.readStringUntil('\n').c_str();
       if (fav.length() > 1) {
-        favourites.push_back(new string(fav.c_str()));
+        vector<string> parts = split(fav, '|');
+        if (parts.size() == 2) {
+          FAVOURITE *f = new FAVOURITE();
+          f->fav_name = strdup(parts[0].c_str());
+          f->fav_url = strdup(parts[1].c_str());
+          favourites.push_back(f);
+        }
       }
     }
     favf.close();

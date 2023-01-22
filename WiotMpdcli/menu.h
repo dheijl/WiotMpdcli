@@ -19,10 +19,4 @@ typedef struct menuline {
   const char *text;
 } MENULINE;
 
-typedef struct favourite {
-  const char *fav_name;
-  const char *fav_url;
-} FAVOURITE;
-
-void
-show_menu();
+void show_menu();
