@@ -9,5 +9,7 @@
 
 using namespace std;
 
+bool read_wifi();
 bool read_players();
 bool read_favourites();
+CONFIG& get_config();

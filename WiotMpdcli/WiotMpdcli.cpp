@@ -26,8 +26,10 @@ void setup() {
   // initialize battery
   init_battery();
   // check for SD card with configuration
-  read_players();
-  read_favourites();
+  if (load_config()) {
+    auto config = get_config();
+    // todo: copy config to flash  
+  }
   // start wifi
   if (start_wifi()) {
     tft_clear();
