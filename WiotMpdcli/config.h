@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Arduino.h>
+#include <Seeed_Arduino_FS.h>
+#include <Seeed_SFUD.h>
 #include <vector>
 
 using namespace std;
@@ -33,7 +35,12 @@ typedef struct config {
   vector<FAVOURITE *> favourites;
 } CONFIG;
 
+
+bool parse_wifi_file(File wifif, CONFIG &config);
+bool parse_players_file(File plf, CONFIG &config);
+bool parse_favs_file(File favf, CONFIG &config);
+
 bool load_SD_config();
 bool load_FLASH_config();
 bool save_FLASH_config();
-CONFIG& get_config();
+CONFIG &get_config();
