@@ -14,6 +14,27 @@ static vector<MPD_PLAYER> players = {
   },
 };
 
+bool write_wifi_FLASH(CONFIG& config) {
+  return true;
+}
+bool write_player_FLASH(CONFIG& config) {
+  return true;
+}
+bool write_favourites_FLASH(CONFIG& config) {
+  return true;
+}
+
+bool read_wifi_FLASH(CONFIG& config) {
+  return true;
+}
+bool read_players_FLASH(CONFIG& config) {
+  return true;
+}
+bool read_favourites_FLASH(CONFIG& config) {
+  return true;
+}
+
+
 void write_player_ip(const char* new_ip) {
   if (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");

@@ -25,3 +25,11 @@ void read_player_ip(vector<char>&);
 void write_player_ip(const char* ip);
 
 const vector<MPD_PLAYER>& get_player_info();
+
+bool write_wifi_FLASH(CONFIG& config);
+bool write_player_FLASH(CONFIG& config);
+bool write_favourites_FLASH(CONFIG& config);
+
+bool read_wifi_FLASH(CONFIG& config);
+bool read_players_FLASH(CONFIG& config);
+bool read_favourites_FLASH(CONFIG& config);

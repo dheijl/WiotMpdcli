@@ -26,9 +26,15 @@ void setup() {
   // initialize battery
   init_battery();
   // check for SD card with configuration
-  if (load_config()) {
-    auto config = get_config();
-    // todo: copy config to flash  
+  if (load_SD_config()) {
+    if (save_FLASH_config()) {
+      tft_println("Config saved to FLASH");
+    }
+  } else {
+    if (!load_FLASH_config()) {
+      tft_println("NO FLASH CONFIG!");
+      while (true) {}
+    }
   }
   // start wifi
   if (start_wifi()) {

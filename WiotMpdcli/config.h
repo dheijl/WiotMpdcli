@@ -33,4 +33,7 @@ typedef struct config {
   vector<FAVOURITE *> favourites;
 } CONFIG;
 
-bool load_config();
+bool load_SD_config();
+bool load_FLASH_config();
+bool save_FLASH_config();
+CONFIG& get_config();
