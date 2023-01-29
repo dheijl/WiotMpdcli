@@ -6,7 +6,7 @@
 
 static CONFIG config;
 
-static vector<string> split(const string& s, char delim) {
+vector<string> split(const string& s, char delim) {
   vector<string> result;
   size_t start;
   size_t end = 0;

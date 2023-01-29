@@ -1,26 +1,17 @@
-
-#include <Arduino.h>
-
-#include "config.h"
-#include "mpdcli.h"
-#include "tftfunctions.h"
 #include "mpd_commands.h"
-#include "flash_fs.h"
 
 static string MPD_HOST = "";
 static const int MPD_PORT = 6600;
 
-static bool connect_mpd() {
+static MPD_PLAYER get_mpd() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
   if (start_wifi(get_config())) {
-    vector<char> ip;
-    read_player_ip(ip);
-    MPD_HOST = string(ip.begin(), ip.end());
-    tft_println(String("Player: " + String(MPD_HOST.c_str())));
-    return true;
+    MPD_PLAYER player = read_current_player();
+    tft_println("Player: " + String(player.player_ip));
+    return player;
   } else {
     tft_println("Can't connect.");
-    return false;
+    return MPD_PLAYER{ NULL, NULL, 0 };
   }
 }
 
@@ -30,9 +21,10 @@ static void disconnect_mpd() {
 }
 
 void toggle_mpd_status() {
-  if (connect_mpd()) {
+  auto player = get_mpd();
+  if (player.player_ip != NULL) {
     MpdConnection con;
-    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
+    if (con.Connect(player.player_ip, player.player_port)) {
       if (con.IsPlaying()) {
         tft_println("Stop playing");
         con.Stop();
@@ -47,13 +39,16 @@ void toggle_mpd_status() {
       delay(100);
     }
     disconnect_mpd();
+    free((void *)player.player_ip);
+    free((void *)player.player_name);
   }
 }
 
 void show_mpd_status() {
-  if (connect_mpd()) {
+  auto player = get_mpd();
+  if (player.player_ip != NULL) {
     MpdConnection con;
-    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
+    if (con.Connect(player.player_ip, player.player_port)) {
       con.GetStatus();
       con.GetCurrentSong();
       con.Disconnect();
@@ -63,13 +58,16 @@ void show_mpd_status() {
       delay(100);
     }
     disconnect_mpd();
+    free((void *)player.player_ip);
+    free((void *)player.player_name);
   }
 }
 
 void play_favourite(const char *url) {
-  if (connect_mpd()) {
+  auto player = get_mpd();
+  if (player.player_ip != NULL) {
     MpdConnection con;
-    if (con.Connect(MPD_HOST.c_str(), MPD_PORT)) {
+    if (con.Connect(player.player_ip, player.player_port)) {
       con.Clear();
       con.Add_Url(url);
       con.Play();

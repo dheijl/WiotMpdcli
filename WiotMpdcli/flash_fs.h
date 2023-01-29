@@ -4,24 +4,12 @@
 #include <vector>
 #include <string>
 
-#include "config.h"
-
 using namespace std;
 
+#include "config.h"
 
-#define PLAYER1_NAME "Beneden"
-#define PLAYER1_IP "192.168.0.129"
-#define PLAYER1_PORT 6600
-
-#define PLAYER2_NAME "Boven"
-#define PLAYER2_IP "192.168.0.254"
-#define PLAYER2_PORT 6600
-
-
-void read_player_ip(vector<char>&);
-void write_player_ip(const char* ip);
-
-const vector<MPD_PLAYER>& get_player_info();
+MPD_PLAYER read_current_player();
+void write_current_player(const MPD_PLAYER& new_pl);
 
 bool write_wifi_FLASH(CONFIG& config);
 bool write_player_FLASH(CONFIG& config);

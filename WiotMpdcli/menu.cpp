@@ -1,7 +1,5 @@
+#include "config.h"
 #include "menu.h"
-#include "flash_fs.h"
-#include "mpd_commands.h"
-#include "tftfunctions.h"
 
 static vector<MENULINE*> main_menu = vector<MENULINE*>({
   new MENULINE{ 4, 40, "Select Favourite" },
@@ -79,11 +77,11 @@ static int display_menu(const vector<MENULINE*> menu) {
 }
 
 static void select_player() {
-  auto players = get_player_info();
+  auto players = get_config().mpd_players;
   vector<MENULINE*> player_menu;
   uint16_t pos = 40;
   for (auto p : players) {
-    MENULINE* m = new MENULINE{ 4, pos, p.player_name };
+    MENULINE* m = new MENULINE{ 4, pos, p->player_name };
     pos += 40;
     player_menu.push_back(m);
   }
@@ -91,10 +89,11 @@ static void select_player() {
   player_menu.push_back(ret);
   int selected = display_menu(player_menu);
   if ((selected >= 0) && (selected < player_menu.size())) {
-    auto ip = players[selected].player_ip;
+    auto ip = players[selected]->player_ip;
     tft_clear();
     tft_println("New player @" + String(ip));
-    write_player_ip(ip);
+    MPD_PLAYER& new_pl = *players[selected];
+    write_current_player(new_pl);
   }
   for (auto ml = player_menu.begin(); ml != player_menu.end(); ++ml) {
     delete *ml;

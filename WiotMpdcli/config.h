@@ -4,11 +4,12 @@
 #include <Seeed_Arduino_FS.h>
 #include <Seeed_SFUD.h>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-//#undef DEBUG
-#define DEBUG
+#undef DEBUG
+//#define DEBUG
 #undef DEBUGMPDMESSAGES
 
 #ifdef DEBUG
@@ -35,6 +36,8 @@ typedef struct config {
   vector<FAVOURITE *> favourites;
 } CONFIG;
 
+
+vector<string> split(const string& s, char delim);
 
 bool parse_wifi_file(File wifif, CONFIG &config);
 bool parse_players_file(File plf, CONFIG &config);

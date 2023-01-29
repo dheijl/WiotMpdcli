@@ -1,18 +1,9 @@
+#include <string>
+#include <cstdlib>
+#include "config.h"
 #include "flash_fs.h"
 #include "tftfunctions.h"
 
-static vector<MPD_PLAYER> players = {
-  {
-    PLAYER1_NAME,
-    PLAYER1_IP,
-    PLAYER1_PORT,
-  },
-  {
-    PLAYER2_NAME,
-    PLAYER2_IP,
-    PLAYER2_PORT,
-  },
-};
 
 bool write_wifi_FLASH(CONFIG& config) {
   bool result = false;
@@ -131,54 +122,54 @@ bool read_favourites_FLASH(CONFIG& config) {
 }
 
 
-void write_player_ip(const char* new_ip) {
+void write_current_player(const MPD_PLAYER& new_pl) {
   if (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");
     return;
   }
   tft_println("FLASH mounted");
-  File ipfile = SFUD.open("ip.txt", FILE_WRITE);
+  File ipfile = SFUD.open("curmpd.txt", FILE_WRITE);
   if (ipfile) {
-    ipfile.println(new_ip);
+    ipfile.println(String(new_pl.player_name) + "|" + String(new_pl.player_ip) + "|" + String(to_string(new_pl.player_port).c_str()));
     ipfile.close();
-    tft_println("Saved " + String(new_ip));
+    tft_println("Saved " + String(new_pl.player_name));
   } else {
     tft_println("Can't write file");
   }
   SFUD.end();
 }
 
-void read_player_ip(vector<char>& current_ip) {
+MPD_PLAYER read_current_player() {
+  MPD_PLAYER current_player{ NULL, NULL, 0 };
   if (!SFUD.begin(104000000UL)) {
     tft_println("FLASH mount failed");
-    return;
+    return current_player;
   }
-  File ipfile = SFUD.open("ip.txt", FILE_READ);
-  if (ipfile) {
-    String ip = "";
-    if (ipfile.available()) {
-      ip = ipfile.readStringUntil('\n');
+  File current_mpd = SFUD.open("curmpd.txt", FILE_READ);
+  if (current_mpd) {
+    String line = "";
+    if (current_mpd.available()) {
+      line = current_mpd.readStringUntil('\n');
+      line.trim();
     }
-    ipfile.close();
-    current_ip.clear();
-    for (auto c : ip) {
-      current_ip.push_back(c);
+    current_mpd.close();
+    string data = string(line.c_str());
+    auto parts = split(data, '|');
+    if (parts.size() == 3) {
+      current_player.player_name = strdup(parts[0].c_str());
+      current_player.player_ip = strdup(parts[1].c_str());
+      current_player.player_port = atoi(parts[2].c_str());
+      DPRINT(String(current_player.player_name) + " " + String(current_player.player_ip) + " " + String(current_player.player_port));
     }
-  } else {
-    tft_println("Can't read ip.txt");
-    write_player_ip(players[0].player_ip);
-    current_ip.clear();
-    for (auto c : String(players[0].player_ip)) {
-      current_ip.push_back(c);
-    }
+  }
+  if (current_player.player_ip == NULL) {
+    tft_println("Can't read curmpd.txt");
+    auto player = get_config().mpd_players[0];
+    current_player.player_name = player->player_name;
+    current_player.player_ip = player->player_ip;
+    current_player.player_port = player->player_port;
+    write_current_player(current_player);
   }
   SFUD.end();
-}
-
-const vector<MPD_PLAYER>& get_player_info() {
-  return players;
-}
-
-vector<MPD_PLAYER>& get_players() {
-  return players;
+  return current_player;
 }
