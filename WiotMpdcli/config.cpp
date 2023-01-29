@@ -21,7 +21,7 @@ static vector<string> split(const string& s, char delim) {
 
 bool load_SD_config() {
   tft_clear();
-  tft_println("Load SD config");
+  tft_println("Check SD config");
   if (read_wifi_SD(config) && read_players_SD(config) && read_favourites_SD(config)) {
     return true;
   } else {
@@ -58,7 +58,9 @@ bool parse_wifi_file(File wifif, CONFIG& config) {
   bool result = false;
   tft_println("Loading WiFi ssid/psw");
   while (wifif.available()) {
-    string wifi = wifif.readStringUntil('\n').c_str();
+    String line = wifif.readStringUntil('\n');
+    line.trim();
+    string wifi = line.c_str();
     DPRINT(wifi.c_str());
     if (wifi.length() > 1) {
       vector<string> parts = split(wifi, '|');
@@ -77,7 +79,9 @@ bool parse_players_file(File plf, CONFIG& config) {
   bool result = false;
   tft_println("Loading players:");
   while (plf.available()) {
-    string pl = plf.readStringUntil('\n').c_str();
+    String line = plf.readStringUntil('\n');
+    line.trim();
+    string pl = line.c_str();
     DPRINT(pl.c_str());
     if (pl.length() > 1) {
       vector<string> parts = split(pl, '|');
@@ -104,7 +108,9 @@ bool parse_favs_file(File favf, CONFIG& config) {
   bool result = false;
   tft_println("Loading favourites");
   while (favf.available()) {
-    string fav = favf.readStringUntil('\n').c_str();
+    String line = favf.readStringUntil('\n');
+    line.trim();
+    string fav = line.c_str();
     DPRINT(fav.c_str());
     if (fav.length() > 1) {
       vector<string> parts = split(fav, '|');

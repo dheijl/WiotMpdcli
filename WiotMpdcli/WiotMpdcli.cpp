@@ -37,7 +37,7 @@ void setup() {
     }
   }
   // start wifi
-  if (start_wifi()) {
+  if (start_wifi(get_config())) {
     tft_clear();
     show_mpd_status();
     wifi_started = millis();
@@ -52,7 +52,7 @@ void setup() {
 void loop() {
   unsigned long wifi_timer = 5000UL;
   if (digitalRead(WIO_KEY_A) == LOW) {
-    start_wifi();
+    start_wifi(get_config());
     wifi_started = millis();
     show_mpd_status();
     wifi_started = millis();
@@ -61,12 +61,12 @@ void loop() {
     printBatteryStats();
   }
   if (digitalRead(WIO_KEY_C) == LOW) {
-    start_wifi();
+    start_wifi(get_config());
     toggle_mpd_status();
     wifi_started = millis();
   }
   if (digitalRead(WIO_5S_PRESS) == LOW) {
-    start_wifi();
+    start_wifi(get_config());
     show_menu();
     wifi_started = millis();
   }

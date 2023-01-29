@@ -8,7 +8,7 @@ bool is_wifi_connected() {
   return have_wifi;
 }
 
-bool start_wifi() {
+bool start_wifi(CONFIG& config) {
 
   digitalWrite(LCD_BACKLIGHT, HIGH);
   if ((have_wifi) && (WiFi.status() == WL_CONNECTED)) {
@@ -20,10 +20,10 @@ bool start_wifi() {
   //digitalWrite(RTL8720D_CHIP_PU, HIGH);
   //delay(100);
   WiFi.mode(WIFI_STA);
-  //WiFi.disconnect();
+  WiFi.disconnect();
   delay(100);
   tft_println("Connecting WiFi...");
-  WiFi.begin(WIFI_SSID, WIFI_PSW);
+  WiFi.begin(config.ssid, config.psw);
   if (WiFi.status() == WL_CONNECTED) {
     have_wifi = true;
     digitalWrite(LED_BUILTIN, HIGH);

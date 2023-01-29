@@ -12,7 +12,7 @@ static const int MPD_PORT = 6600;
 
 static bool connect_mpd() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
-  if (start_wifi()) {
+  if (start_wifi(get_config())) {
     vector<char> ip;
     read_player_ip(ip);
     MPD_HOST = string(ip.begin(), ip.end());
