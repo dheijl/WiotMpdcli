@@ -15,23 +15,119 @@ static vector<MPD_PLAYER> players = {
 };
 
 bool write_wifi_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  if (SFUD.remove("wifi.txt")) {
+    tft_println("wifi.txt removed");
+  }
+  String data = String(config.ssid) + "|" + String(config.psw);
+  File wifif = SFUD.open("wifi.txt", FILE_WRITE);
+  if (wifif) {
+    wifif.println(data);
+    DPRINT(data.c_str());
+    wifif.close();
+    result = true;
+  } else {
+    tft_println("Error writing wifi.txt");
+  }
+  SFUD.end();
+  return result;
 }
+
+
 bool write_player_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  if (SFUD.remove("players.txt")) {
+    tft_println("players.txt removed");
+  }
+  File plf = SFUD.open("players.txt", FILE_WRITE);
+  if (plf) {
+    for (auto pl : config.mpd_players) {
+      String data = String(pl->player_name) + "|" + String(pl->player_ip) + "|" + String(to_string(pl->player_port).c_str());
+      plf.println(data);
+      DPRINT(data.c_str());
+    }
+    plf.close();
+    result = true;
+  } else {
+    tft_println("Error writing wifi.txt");
+  }
+  SFUD.end();
+  return result;
 }
+
 bool write_favourites_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  if (SFUD.remove("favs.txt")) {
+    tft_println("favs.txt removed");
+  }
+  File favf = SFUD.open("favs.txt", FILE_WRITE);
+  if (favf) {
+    for (auto f : config.favourites) {
+      String data = String(f->fav_name) + "|" + String(f->fav_url);
+      favf.println(data);
+      DPRINT(data.c_str());
+    }
+    favf.close();
+    result = true;
+  } else {
+    tft_println("Error writing favs.txt");
+  }
+  SFUD.end();
+  return result;
 }
 
 bool read_wifi_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  File wifif = SFUD.open("wifi.txt", FILE_READ);
+  if (wifif) {
+    result = parse_wifi_file(wifif, config);
+  }
+  SFUD.end();
+  return result;
 }
+
 bool read_players_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  File plf = SFUD.open("players.txt", FILE_READ);
+  if (plf) {
+    result = parse_players_file(plf, config);
+  }
+  SFUD.end();
+  return result;
 }
+
 bool read_favourites_FLASH(CONFIG& config) {
-  return true;
+  bool result = false;
+  if (!SFUD.begin(104000000UL)) {
+    tft_println("FLASH mount failed");
+    return result;
+  }
+  File favf = SFUD.open("favs.txt", FILE_READ);
+  if (favf) {
+    result = parse_favs_file(favf, config);
+  }
+  SFUD.end();
+  return result;
 }
 
 
@@ -50,10 +146,6 @@ void write_player_ip(const char* new_ip) {
     tft_println("Can't write file");
   }
   SFUD.end();
-}
-
-vector<MPD_PLAYER>& get_players() {
-  return players;
 }
 
 void read_player_ip(vector<char>& current_ip) {
@@ -84,5 +176,9 @@ void read_player_ip(vector<char>& current_ip) {
 }
 
 const vector<MPD_PLAYER>& get_player_info() {
+  return players;
+}
+
+vector<MPD_PLAYER>& get_players() {
   return players;
 }

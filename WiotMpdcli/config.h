@@ -7,8 +7,8 @@
 
 using namespace std;
 
-#undef DEBUG
-//#define DEBUG
+//#undef DEBUG
+#define DEBUG
 #undef DEBUGMPDMESSAGES
 
 #ifdef DEBUG
