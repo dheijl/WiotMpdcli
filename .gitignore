@@ -38,3 +38,6 @@ secret.h
 *.app
 WiotMpdcli/.vscode/arduino.json
 WiotMpdcli/.vscode/c_cpp_properties.json
+
+# build dir
+build/*

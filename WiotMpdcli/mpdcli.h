@@ -5,7 +5,6 @@
 #include <map>
 #include <vector>
 #include <cctype>
-#include <algorithm>
 
 #include "wifi.h"
 #include "tftfunctions.h"
@@ -87,9 +86,9 @@ public:
       for (auto line : lines) {
         if ((pos_start = line.find(": ")) != string::npos) {
           auto key = line.substr(0, pos_start);
-          std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c) {
-            return std::toupper(c);
-          });
+          for (int i = 0; i < key.length(); ++i) {
+            key[i] = std::toupper(key[i]);
+          }
           auto value = line.substr(pos_start + 2);
           this->ResponseData[key] = value;
         }
@@ -244,7 +243,8 @@ public:
       return false;
     }
     MpdStatus mpd_status(data);
-    tft_println("MPD status: " + String(mpd_status.getState().c_str()));
+    tft_print("MPD status: ");
+    tft_println_highlight(String(mpd_status.getState().c_str()));
     return true;
   }
 
@@ -256,7 +256,8 @@ public:
     }
     MpdStatus mpd_status(data);
     string status = mpd_status.getState();
-    tft_println("MPD status: " + String(status.c_str()));
+    tft_print("MPD status: ");
+    tft_println_highlight(String(status.c_str()));
     return status.compare("play") == 0;
   }
 
@@ -273,15 +274,15 @@ public:
     tft_println(file);
     string name = mpd_cs.getName();
     if (!name.empty()) {
-      tft_println(name.c_str());
+      tft_println_highlight(name.c_str());
     }
     string title = mpd_cs.getTitle();
     if (!title.empty()) {
-      tft_println(title.c_str());
+      tft_println_highlight(title.c_str());
     }
     string artist = mpd_cs.getArtist();
     if (!artist.empty()) {
-      tft_println(artist.c_str());
+      tft_println_highlight(artist.c_str());
     }
     return true;
   }

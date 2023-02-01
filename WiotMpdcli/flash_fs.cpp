@@ -22,7 +22,7 @@ bool write_wifi_FLASH(CONFIG& config) {
     wifif.close();
     result = true;
   } else {
-    tft_println("Error writing wifi.txt");
+    tft_println_error("Error writing wifi.txt");
   }
   SFUD.end();
   return result;
@@ -32,7 +32,7 @@ bool write_wifi_FLASH(CONFIG& config) {
 bool write_player_FLASH(CONFIG& config) {
   bool result = false;
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return result;
   }
   if (SFUD.remove("players.txt")) {
@@ -48,7 +48,7 @@ bool write_player_FLASH(CONFIG& config) {
     plf.close();
     result = true;
   } else {
-    tft_println("Error writing wifi.txt");
+    tft_println_error("Error writing wifi.txt");
   }
   SFUD.end();
   return result;
@@ -57,7 +57,7 @@ bool write_player_FLASH(CONFIG& config) {
 bool write_favourites_FLASH(CONFIG& config) {
   bool result = false;
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return result;
   }
   if (SFUD.remove("favs.txt")) {
@@ -73,7 +73,7 @@ bool write_favourites_FLASH(CONFIG& config) {
     favf.close();
     result = true;
   } else {
-    tft_println("Error writing favs.txt");
+    tft_println_error("Error writing favs.txt");
   }
   SFUD.end();
   return result;
@@ -82,7 +82,7 @@ bool write_favourites_FLASH(CONFIG& config) {
 bool read_wifi_FLASH(CONFIG& config) {
   bool result = false;
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return result;
   }
   File wifif = SFUD.open("wifi.txt", FILE_READ);
@@ -96,7 +96,7 @@ bool read_wifi_FLASH(CONFIG& config) {
 bool read_players_FLASH(CONFIG& config) {
   bool result = false;
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return result;
   }
   File plf = SFUD.open("players.txt", FILE_READ);
@@ -110,7 +110,7 @@ bool read_players_FLASH(CONFIG& config) {
 bool read_favourites_FLASH(CONFIG& config) {
   bool result = false;
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return result;
   }
   File favf = SFUD.open("favs.txt", FILE_READ);
@@ -124,7 +124,7 @@ bool read_favourites_FLASH(CONFIG& config) {
 
 void write_current_player(const MPD_PLAYER& new_pl) {
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return;
   }
   tft_println("FLASH mounted");
@@ -134,7 +134,7 @@ void write_current_player(const MPD_PLAYER& new_pl) {
     ipfile.close();
     tft_println("Saved " + String(new_pl.player_name));
   } else {
-    tft_println("Can't write file");
+    tft_println_error("Can't write file");
   }
   SFUD.end();
 }
@@ -142,7 +142,7 @@ void write_current_player(const MPD_PLAYER& new_pl) {
 MPD_PLAYER read_current_player() {
   MPD_PLAYER current_player{ NULL, NULL, 0 };
   if (!SFUD.begin(104000000UL)) {
-    tft_println("FLASH mount failed");
+    tft_println_error("FLASH mount failed");
     return current_player;
   }
   File current_mpd = SFUD.open("curmpd.txt", FILE_READ);
@@ -163,7 +163,7 @@ MPD_PLAYER read_current_player() {
     }
   }
   if (current_player.player_ip == NULL) {
-    tft_println("Can't read curmpd.txt");
+    tft_println_error("Can't read curmpd.txt");
     auto player = get_config().mpd_players[0];
     current_player.player_name = player->player_name;
     current_player.player_ip = player->player_ip;

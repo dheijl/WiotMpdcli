@@ -13,7 +13,7 @@ bool init_battery(void) {
   {
     // If communication fails, print an error message and loop forever.
     DPRINT("Error: Unable to communicate with BQ27441.");
-    tft_println("Battery Not Initialised!");
+    tft_println_error("Battery Not Initialised!");
     return false;
   }
   DPRINT("Connected to BQ27441!");

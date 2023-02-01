@@ -1,11 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
-#include <vector>
-#include <string>
-
-using namespace std;
-
 #include "config.h"
 
 MPD_PLAYER read_current_player();

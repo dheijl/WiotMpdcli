@@ -9,7 +9,7 @@ bool read_wifi_SD(CONFIG &config) {
     SD.end();
     return result;
   }
-  tft_println("SD card present!");
+  tft_println_highlight("SD card present!");
   File wifif = SD.open("wifi.txt", FILE_READ);
   if (wifif) {
     result = parse_wifi_file(wifif, config);
