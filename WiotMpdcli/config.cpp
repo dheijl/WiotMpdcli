@@ -32,7 +32,7 @@ bool load_SD_config() {
 bool load_FLASH_config() {
   tft_clear();
   tft_println("Load FLASH config");
-  if (read_wifi_FLASH(config) && read_players_FLASH(config) && read_favourites_FLASH(config)) {
+  if (read_wifi_FLASH(config) && read_players_FLASH(config) && read_favourites_FLASH(config) && read_current_player(config)) {
     return true;
   } else {
     return false;

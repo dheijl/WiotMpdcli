@@ -33,6 +33,7 @@ typedef struct favourite {
 typedef struct config {
     const char* ssid;
     const char* psw;
+    uint16_t active_player;
     vector<MPD_PLAYER*> mpd_players;
     vector<FAVOURITE*> favourites;
 } CONFIG;
