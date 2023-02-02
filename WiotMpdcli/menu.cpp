@@ -1,15 +1,6 @@
 #include "menu.h"
 #include "config.h"
 
-static vector<MENULINE*> main_menu = vector<MENULINE*>({
-    new MENULINE { 4, 20, "Select Player" },
-    new MENULINE { 4, 50, "Favourites 1" },
-    new MENULINE { 4, 80, "Favourites 2" },
-    new MENULINE { 4, 110, "Favourites 3" },
-    new MENULINE { 4, 140, "Favourites 4" },
-    new MENULINE { 4, 140, "Return" },
-});
-
 static void display_menuline(const MENULINE* line, uint16_t color)
 {
     tft_write(line->x, line->y, color, String(line->text));
@@ -127,27 +118,42 @@ static void select_favourite(int page)
 
 void show_menu()
 {
+
+    static const char* mlines[] {
+        "Select Player",
+        "Favourites 1",
+        "Favourites 2",
+        "Favourites 3",
+        "Favourites 4",
+        "Favourites 5",
+        "Return"
+    };
+
     tft_clear();
     digitalWrite(LCD_BACKLIGHT, HIGH);
     CONFIG& config = get_config();
+    int nfavs = config.favourites.size();
+    int npages = (npages % 10) == 0 ? (nfavs / 10) : (nfavs / 10) + 1;
+    npages = min(npages, 5);
+    vector<MENULINE*> main_menu;
+    int x = 4;
+    int y = 20;
+    for (int i = 0; i <= npages; i++) {
+        main_menu.push_back(new MENULINE { x, y, mlines[i] });
+        y += 30;
+    }
+    main_menu.push_back(new MENULINE { x, y, mlines[6] });
     int selected = display_menu(main_menu);
-    switch (selected) {
-    case -1: // return
-        break;
-    case 0: // select player
+    if (selected == 0) {
         select_player();
-        break;
-    case 1:
-    case 2:
-    case 3:
-    case 4: { // select favourite
-        int ipage = selected - 1;
-        select_favourite(ipage);
-        break;
+    } else if (selected <= npages) {
+        select_favourite(selected - 1);
     }
-    default: // return
-        break;
+    for (auto ml = main_menu.begin(); ml != main_menu.end(); ++ml) {
+        delete *ml;
     }
+    main_menu.clear();
+
     delay(500);
     digitalWrite(LCD_BACKLIGHT, LOW);
     tft_clear();
