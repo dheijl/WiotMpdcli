@@ -6,13 +6,33 @@ A basic MPD client that shows the currently playing song on a headless RPI with 
 
 Because power saving (standby mode) does not work at this moment on the Wio Terminal, the TFT screen is disabled and you have to push the KEY_A button to activate WiFi, connect to the MPD player, display the current status (play/stop), song, artist and file/radio station for some seconds:
 
+## power on (loading config from flash)
+
+![20230203_202844](https://user-images.githubusercontent.com/2384545/216694592-45d4cc5e-b69d-4d7b-912b-e9decd33d62f.jpg)
+
 ## showing MPD status
 
-![20230108_204345](https://user-images.githubusercontent.com/2384545/211216045-9a59f470-efb1-4133-93de-d24f1fe82a49.jpg)
+![20230203_202932](https://user-images.githubusercontent.com/2384545/216694821-2ded3846-2396-4eaf-b49b-6c013ec982cc.jpg)
 
 ## showing battery status
 
 ![20230108_204513](https://user-images.githubusercontent.com/2384545/211216060-d9735eac-7844-421d-bec2-12d0c01fd79d.jpg)
+
+## toggle mpd stop/play
+
+![20230203_203053](https://user-images.githubusercontent.com/2384545/216695145-5319ea1d-1bb5-4adc-85ba-236baa1968e9.jpg)
+
+## main menu
+
+![20230203_203530](https://user-images.githubusercontent.com/2384545/216695354-d1e2db56-77d7-457c-a0b7-6fa73afb378d.jpg)
+
+## player menu
+
+![20230203_203640](https://user-images.githubusercontent.com/2384545/216695979-1cabb7ee-47f9-4f66-a36a-e5ec5d678555.jpg)
+
+## favourites menu
+
+![20230203_203747](https://user-images.githubusercontent.com/2384545/216698069-b58b9800-c798-4743-be1a-16c22962a933.jpg)
 
 ## Operation
 
