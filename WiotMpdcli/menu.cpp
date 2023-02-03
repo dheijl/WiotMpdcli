@@ -69,10 +69,10 @@ static void select_player() {
   MENULINE* ret = new MENULINE{ 4, pos, "Return" };
   player_menu.push_back(ret);
   int selected = display_menu(player_menu);
-  if ((selected >= 0) && (selected < player_menu.size())) {
-    auto ip = players[selected]->player_ip;
+  if ((selected >= 0) && (selected < players.size())) {
+    auto pl = players[selected]->player_name;
     tft_clear();
-    tft_println("New player @" + String(ip));
+    tft_println("New player @" + String(pl));
     write_current_player(get_config(), selected);
   }
   for (auto ml = player_menu.begin(); ml != player_menu.end(); ++ml) {
@@ -98,7 +98,7 @@ static void select_favourite(int page) {
   MENULINE* ret = new MENULINE{ 4, pos, "Return" };
   fav_menu.push_back(ret);
   int selected = display_menu(fav_menu);
-  if ((selected >= 0) && (selected < fav_menu.size())) {
+  if ((selected >= 0) && (selected < fav_menu.size() - 1)) {
     selected += ifrom;
     auto url = config.favourites[selected]->fav_url;
     auto name = config.favourites[selected]->fav_name;
