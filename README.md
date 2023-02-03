@@ -7,9 +7,11 @@ A basic MPD client that shows the currently playing song on a headless RPI with 
 Because power saving (standby mode) does not work at this moment on the Wio Terminal, the TFT screen is disabled and you have to push the KEY_A button to activate WiFi, connect to the MPD player, display the current status (play/stop), song, artist and file/radio station for some seconds:
 
 ## showing MPD status
+
 ![20230108_204345](https://user-images.githubusercontent.com/2384545/211216045-9a59f470-efb1-4133-93de-d24f1fe82a49.jpg)
 
 ## showing battery status
+
 ![20230108_204513](https://user-images.githubusercontent.com/2384545/211216060-d9735eac-7844-421d-bec2-12d0c01fd79d.jpg)
 
 ## Operation
@@ -38,9 +40,9 @@ The currently active MPD player is stored in the 4MB on board QSPI flash, using 
 
 At power-on or reset the SD card slot is checked for the presence of an SD card with configuration files:
 
-  - wifi.txt: textfile containing a single line with Wifi SSID and password separated by a | (pipe). No spaces or quotes.
-  - players.txt: textfile containing up to 5 lines each with a player name and ipv4-address separated by a | (pipe). No spaces or quotes.
-  - favs.txt: textfile containing up to 50 lines each with a favourite name and an url separated by a | (pipe). No spaces or quotes.
+- wifi.txt: textfile containing a single line with Wifi SSID and password separated by a | (pipe). No spaces or quotes.
+- players.txt: textfile containing up to 5 lines each with a player name and ipv4-address separated by a | (pipe). No spaces or quotes.
+- favs.txt: textfile containing up to 50 lines each with a favourite name and an url separated by a | (pipe). No spaces or quotes.
 
 If present these files are read in and copied to internal QSPI flash using the Seeed SFUD file system. At subsequents power-ons this flash config is used (unless an SD card is present with a new config).
 
@@ -49,3 +51,7 @@ The TFT screen is always kept disabled except for some seconds when something is
 down.
 
 The favourites are all internet radio stations in my use case. I haven't tried anything else.
+
+## GUI
+
+The GUI is extremely basic, with this display one could do much better. But I hate GUI design, and it gives me the information I need. Feel free to make pull resuests if GUI is your thing...
