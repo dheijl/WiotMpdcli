@@ -11,7 +11,7 @@ static MPD_PLAYER* get_mpd() {
     tft_println("Player: " + String(mpd->player_ip));
     return mpd;
   } else {
-    tft_println("Can't connect.");
+    tft_println_error("Can't connect.");
     return NULL;
   }
 }
@@ -27,10 +27,10 @@ void toggle_mpd_status() {
     MpdConnection con;
     if (con.Connect(player->player_ip, player->player_port)) {
       if (con.IsPlaying()) {
-        tft_println("Stop playing");
+        tft_println_highlight("Stop playing");
         con.Stop();
       } else {
-        tft_println("Start playing");
+        tft_println_highlight("Start playing");
         con.Play();
       }
       con.Disconnect();
