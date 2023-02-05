@@ -320,11 +320,11 @@ public:
     return true;
   }
 
-  bool Add_Url(const char *url) {
+  bool Add_Url(const char* url) {
     string add_cmd(MPD_ADD);
     int pos = add_cmd.find("{}");
     add_cmd.replace(pos, 2, url);
-    tft_println(add_cmd.c_str());    
+    tft_println(add_cmd.c_str());
     Client.write(add_cmd.c_str(), add_cmd.length());
     string data = read_data();
     if (data.length() == 0) {

@@ -1,9 +1,6 @@
-#include "tftfunctions.h"
-#include "config.h"
-
 #include "sdcard_fs.h"
 
-bool read_wifi_SD(CONFIG &config) {
+bool read_wifi_SD(CONFIG& config) {
   bool result = false;
   if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL)) {
     SD.end();
@@ -18,7 +15,7 @@ bool read_wifi_SD(CONFIG &config) {
   return result;
 }
 
-bool read_players_SD(CONFIG &config) {
+bool read_players_SD(CONFIG& config) {
   bool result = false;
   if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL)) {
     SD.end();
@@ -32,7 +29,7 @@ bool read_players_SD(CONFIG &config) {
   return result;
 }
 
-bool read_favourites_SD(CONFIG &config) {
+bool read_favourites_SD(CONFIG& config) {
   bool result = false;
   if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL)) {
     SD.end();

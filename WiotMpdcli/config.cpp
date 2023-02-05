@@ -1,5 +1,4 @@
 #include "config.h"
-
 #include "flash_fs.h"
 #include "sdcard_fs.h"
 

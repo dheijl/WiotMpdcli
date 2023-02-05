@@ -1,9 +1,6 @@
-
 #include "config.h"
 
 #include "wifi.h"
-// #include "variant.h"
-
 #include "battery.h"
 #include "buttons.h"
 #include "debug.h"

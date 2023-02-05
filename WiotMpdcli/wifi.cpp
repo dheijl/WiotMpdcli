@@ -1,4 +1,3 @@
-
 #include "wifi.h"
 #include "tftfunctions.h"
 
@@ -15,10 +14,10 @@ bool start_wifi(CONFIG& config) {
     return true;
   }
 
-  //Turn on WiFi
-  //pinMode(RTL8720D_CHIP_PU, OUTPUT);
-  //digitalWrite(RTL8720D_CHIP_PU, HIGH);
-  //delay(100);
+  // Turn on WiFi
+  // pinMode(RTL8720D_CHIP_PU, OUTPUT);
+  // digitalWrite(RTL8720D_CHIP_PU, HIGH);
+  // delay(100);
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
@@ -41,9 +40,9 @@ void stop_wifi() {
   have_wifi = false;
   delay(400);
   tft_clear();
-  //Turn off WiFi
-  //pinMode(RTL8720D_CHIP_PU, OUTPUT);
-  //digitalWrite(RTL8720D_CHIP_PU, LOW);
+  // Turn off WiFi
+  // pinMode(RTL8720D_CHIP_PU, OUTPUT);
+  // digitalWrite(RTL8720D_CHIP_PU, LOW);
   digitalWrite(LCD_BACKLIGHT, LOW);
   digitalWrite(LED_BUILTIN, LOW);
 }

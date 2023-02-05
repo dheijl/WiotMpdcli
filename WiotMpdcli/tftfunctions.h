@@ -2,7 +2,7 @@
 
 #include "config.h"
 
-#include "Free_Fonts.h" //include the header file
+#include "Free_Fonts.h"  //include the header file
 #include "TFT_eSPI.h"
 
 void init_tft();

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "config.h"
-
 #include <rpcWiFi.h>
 
 bool is_wifi_connected();
