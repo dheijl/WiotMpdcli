@@ -9,8 +9,7 @@ void init_tft() {
   tft.setTextColor(TFT_WHITE);
   tft.setTextSize(1);
   tft.setFreeFont(FM9);
-  tft.println();
-  tft.println("TFT initialized!");
+  //tft.println("TFT initialized!");
 }
 
 void tft_write(int16_t x, int16_t y, uint16_t color, const String s) {
