@@ -1,11 +1,13 @@
 #include "menu.h"
 #include "config.h"
 
-static void display_menuline(const MENULINE* line, uint16_t color) {
+static void display_menuline(const MENULINE* line, uint16_t color)
+{
   tft_write(line->x, line->y, color, String(line->text));
 }
 
-static int display_menu(const vector<MENULINE*> menu) {
+static int display_menu(const vector<MENULINE*> menu)
+{
   tft_clear();
   int selected = 0;
   bool repaint = true;
@@ -57,16 +59,17 @@ static int display_menu(const vector<MENULINE*> menu) {
   }
 }
 
-static void select_player() {
+static void select_player()
+{
   auto players = get_config().mpd_players;
   vector<MENULINE*> player_menu;
   uint16_t pos = 40;
   for (auto p : players) {
-    MENULINE* m = new MENULINE{ 4, pos, p->player_name };
+    MENULINE* m = new MENULINE { 4, pos, p->player_name };
     pos += 40;
     player_menu.push_back(m);
   }
-  MENULINE* ret = new MENULINE{ 4, pos, "Return" };
+  MENULINE* ret = new MENULINE { 4, pos, "Return" };
   player_menu.push_back(ret);
   int selected = display_menu(player_menu);
   if ((selected >= 0) && (selected < players.size())) {
@@ -82,7 +85,8 @@ static void select_player() {
   delay(500);
 }
 
-static void select_favourite(int page) {
+static void select_favourite(int page)
+{
   vector<MENULINE*> fav_menu;
   uint16_t pos = 15;
   int ifrom = page * 10;
@@ -90,12 +94,12 @@ static void select_favourite(int page) {
   CONFIG& config = get_config();
   for (int i = ifrom; i < ito; i++) {
     if (i < config.favourites.size()) {
-      MENULINE* m = new MENULINE{ 4, pos, config.favourites[i]->fav_name };
+      MENULINE* m = new MENULINE { 4, pos, config.favourites[i]->fav_name };
       pos += 20;
       fav_menu.push_back(m);
     }
   }
-  MENULINE* ret = new MENULINE{ 4, pos, "Return" };
+  MENULINE* ret = new MENULINE { 4, pos, "Return" };
   fav_menu.push_back(ret);
   int selected = display_menu(fav_menu);
   if ((selected >= 0) && (selected < fav_menu.size() - 1)) {
@@ -112,9 +116,10 @@ static void select_favourite(int page) {
   fav_menu.clear();
 }
 
-void show_menu() {
+void show_menu()
+{
 
-  static const char* mlines[]{
+  static const char* mlines[] {
     "Select Player",
     "Favourites 1",
     "Favourites 2",
@@ -128,16 +133,16 @@ void show_menu() {
   digitalWrite(LCD_BACKLIGHT, HIGH);
   CONFIG& config = get_config();
   int nfavs = config.favourites.size();
-  int npages = (npages % 10) == 0 ? (nfavs / 10) : (nfavs / 10) + 1;
+  int npages = (nfavs % 10) == 0 ? (nfavs / 10) : (nfavs / 10) + 1;
   npages = min(npages, 5);
   vector<MENULINE*> main_menu;
   int x = 4;
   int y = 20;
   for (int i = 0; i <= npages; i++) {
-    main_menu.push_back(new MENULINE{ x, y, mlines[i] });
+    main_menu.push_back(new MENULINE { x, y, mlines[i] });
     y += 30;
   }
-  main_menu.push_back(new MENULINE{ x, y, mlines[6] });
+  main_menu.push_back(new MENULINE { x, y, mlines[6] });
   int selected = display_menu(main_menu);
   if (selected == 0) {
     select_player();
