@@ -1,5 +1,7 @@
 # WiotMpdcli
 
+**This project is no longer maintained. I switched to the M5Stack M5Core2 device (similar, but ESP32 based), because it has much better power management, is much faster, has more flash and RAM, and has a touch screen: https://github.com/dheijl/M5Core2MpdCli**.
+
 Remote Wio Terminal ( + Wio Battery Chassis 650 mAH) MPD client (Arduino IDE)
 
 A basic MPD client that shows the currently playing song on a headless RPI with MoodeAudio (or any other MPD based music player I guess).
